@@ -1,0 +1,1319 @@
+\documentclass[a4paper]{amsart}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[american]{babel}
+\usepackage{exsheets}
+\usepackage[colorlinks]{hyperref}
+\usepackage[nameinlink]{cleveref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage{wasysym}
+\usepackage{enumitem}
+\usepackage{soul}
+
+\hypersetup{
+%pdfborderstyle={/S/D/D [3 2]/W 1},
+%pdfstartview={FitH},
+pdftitle={Complex Analysis III – Complex Geometry},
+pdfdisplaydoctitle = true,
+pdfauthor={Tim Kirschner},
+pdfsubject={Exercise session for the lecture “Complex Analysis III -- Complex Geometry”, summer term 2016, University of Duisburg-Essen},
+pdfkeywords={math; problem; exercise; Complex Analysis; Complex Geometry; University of Duisburg-Essen}
+}
+%\DeclareQuestionClass{sheet}{sheets}
+\SetupExSheets{
+question/print=false,
+%solution/print=true,
+%label-format = {#1},
+%label-cmd = \label[qu],
+%use-sheets=3
+headings={block-subtitle},
+}
+\crefname{question}{exercise}{exercises}
+
+\setlist[enumerate,1]{label=(\alph*)}
+\setlist[enumerate,2]{label=(\arabic*)}
+\newlist{solenum}{enumerate}{2}
+\setlist[solenum,1]{wide,label=(\alph*),font=\bfseries,itemsep=.5\baselineskip}
+\setlist[solenum,2]{wide,label=\arabic*.,topsep=1ex}
+%\setlist[solenum]
+%\renewcommand{\theenumi}{\alph{enumi}}
+%\renewcommand{\datename}{\textit{Datum}:}
+%\renewcommand{\emailaddrname}{\textit{E-Mail-Adresse}}
+%\makeatletter
+%\def\@@and{und}
+%\makeatother
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Polydisk}[3]{\mathsf{P}^{#1}(#2,#3)}
+\newcommand{\Zero}[1]{\mathsf{N}(#1)}
+\newcommand{\SG}[1]{\mathsf{S}_{#1}}
+\newcommand{\Sym}[2]{\mathsf{Sym}^{#1}(#2)}
+\newcommand{\RingH}[1]{\mathsf{H}_{#1}}
+\newcommand{\id}[1]{\mathsf{id}_{#1}}
+\newcommand{\ee}[1]{\mathsf{e}^{#1}}
+\newcommand{\ii}{\mathsf{i}}
+\newcommand{\pr}[1]{\mathsf{pr}_{#1}}
+\newcommand{\Reg}[1]{\mathsf{Reg}(#1)}
+\newcommand{\Sing}[1]{\mathsf{Sing}(#1)}
+\newcommand{\Jac}[2]{\mathsf{J}_{#1}\paren*{#2}}
+\newcommand{\frk}[2]{\mathsf{rk}_{#1}(#2)}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\TB}[1]{\mathsf{T}(#1)}
+\newcommand{\KB}[1]{\mathsf{K}_{#1}}
+\newcommand{\NB}[2]{\mathsf{N}_{#2}(#1)}
+\renewcommand{\O}{\mathcal{O}}
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\Re}{\operatorname{Re}}
+%\renewcommand{\land}{\mathbin{\&}}
+%\renewcommand{\implies}{\mathbin{\rightarrow}}
+%\renewcommand{\iff}{\mathbin{\leftrightarrow}}
+%\theoremstyle{definition}
+%\newtheorem*{defi}{Definitionen}
+\theoremstyle{remark}
+\newtheorem{lemma}{Lemma}[question]
+\newtheorem{claim}{Claim}[question]
+\newtheorem{fact}{Fact}[question]
+\newtheorem{remark}{Remark}[question]
+%\DeclarePairedDelimiter\tsubstdel{[}{]}
+\numberwithin{equation}{question}
+\DeclarePairedDelimiter\cint{[}{]}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclarePairedDelimiter\paren{(}{)}
+\DeclarePairedDelimiterX\rest[2]{}{\vert_{#2}}{#1}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\im}{im}
+
+\begin{document}
+\title[Complex Analysis III]{Complex Analysis III -- Complex Geometry\\ Summer term 2016}
+\author{Daniel Greb}
+\email{daniel.greb@uni-due.de}
+\author{Tim Kirschner}
+\email{tim.kirschner@uni-due.de}
+%\urladdr{http://timkirschner.tumblr.com}
+\urladdr{\url{https://moodle2.uni-due.de/course/view.php?id=8213}}
+\date{\today}
+\maketitle
+
+\begin{question}[subtitle={Closedness and openness of the Weierstraß map}]
+\label{qu:weierstrass map}
+Let $\omega$ be a pseudopolynomial over $G$. In particular, $G$ is a domain in $\C^n$ for some $n \in \N$. Let $A = \Zero\omega$ be the zero set of $\omega$ and $\pi$ the restriction of the cartesian projection $G \times \C \to G$ to $A$. Show the following:
+\begin{enumerate}
+\item \label{it:weierstrass map-a} The map $\pi \colon A \to G$ is closed; that is, when $B$ is a closed subset of $A$, then $\pi(B)$ is a closed subset of $G$.
+\item \label{it:weierstrass map-b} When $a \in G$, $\pi^{-1}(\set a) = \set{(a,c)}$, and $\epsilon \in \R_{>0}$, then there exists an open neighborhood $V$ of $a$ in $G$ such that $\pi^{-1}(V) \subset V \times \Polydisk1c\epsilon$.
+\item \label{it:weierstrass map-c} The map $\pi \colon A \to G$ is open; that is, when $U$ is open in $A$, then $\pi(U)$ is open in $G$.
+\end{enumerate}
+\end{question}
+
+\begin{question}[subtitle={Continuity of roots}]
+\label{qu:continuity of roots}
+Let $\omega$ be a pseudopolynomial over $G$. Moreover, let $(z_\nu)_{\nu \in \N}$ be a sequence converging to $a$ in $G$ and let $c \in \C$ be such that $\omega(a,c) = 0$. Show the existence of a sequence $(u_\nu)_{\nu \in \N}$ converging to $c$ in $\C$ such that $\omega(z_\nu,u_\nu) = 0$ for all $\nu \in \N$.
+
+\emph{Hint:} \Cref{qu:weierstrass map} might help \ldots
+\end{question}
+
+\begin{question}[subtitle={Factorization from the geometric picture}]
+\label{qu:factorization}
+Let $\omega^*$ and $\omega$ be pseudopolynomials without multiple factors over a domain $G \subset \C^n$ and assume that $\Zero{\omega^*} \subset \Zero\omega$. Show that $\omega^*$ divides $\omega$ (either in $\O(G \times \C)$ or better formally, in the commutative monoid $\O(G)^0[u]$).
+\end{question}
+
+\begin{question}[subtitle={Calculating power sums of zeros}]
+\label{qu:power sums}
+Let $r > 0$ be a real number and $f$ a holomorphic function on the closure of the disk $P := \Polydisk10r$; that is, $f$ is holomorphic on an open subset of $\C$ containing $\overline P$. Assume that $f$ does not vanish on the distinguished boundary $T$ of $P$ and let $(c_1,\dots,c_s)$ with $s \in \N_0$ be a full tuple of zeros of $f$ in $P$ (i.e., the entries in the tuple occur as often as the order of vanishing of $f$ prescribes). Show that for all $k \in \N_0$ we have
+\[
+\frac{1}{2\pi i}\int_T \frac{\zeta^kf'(\zeta)}{f(\zeta)} \,\mathsf d\zeta = \sum_{j=1}^s c_j^k .
+\]
+In what sense does this formula imply a “continuity of roots” when varying $f$?
+\end{question}
+
+\begin{question}%[print]
+\label{qu:connectedness}
+\begin{enumerate}
+\item Determine which of the following sets is connected in $\C \times \C$:
+\begin{align*}
+A_1 &= \set{(z,u) \in \C^* \times \C \mid u^2 = z^7}, \\
+A_2 &= \set{(z,u) \in (\C \setminus \set1) \times \C \mid u^2 = z^7}, \\
+A_3 &= \set{(z,u) \in \C \times \C \mid 1 < \abs z < 2 \land u^2 = z^7}, \\
+A_4 &= \set{(z,u) \in (\C \setminus \R_{\ge0}) \times \C \mid u^2 = z^7}.
+\end{align*}
+\item\label{it:connectedness-b} Determine the connected components of the following sets in $\C \times \C$:
+\begin{align*}
+B_1 &= \set{(z,u) \in \C^* \times \C \mid u^2 = z^4}, \\
+B_2 &= \set{(z,u) \in \C \times \C \mid u^2 = z^4}.
+\end{align*}
+\item Give the formula of a continuous path $\gamma \colon [0,1] \to A_1$ such that $\gamma(0) = (1,1)$ and $\gamma(1) = (1,-1)$. Similarly, give the formula of a continuous path $\delta \colon [0,1] \to B_2$ such that $\delta(0) = (1,1)$ and $\delta(1) = (1,-1)$.
+\item Sketch the sets $A_2 \cap (\R \times \R)$ and $B_2 \cap (\R \times \R)$ in the Euclidean plane. Explain how these sketches might be misleading in view of the geometry of $A_2$ and $B_2$. Name at least two aspects.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item We use the following fact from the lecture.
+\begin{fact}
+Let $n \in \N$, $G \subset \C^n$ a domain, $\omega \in \O(G)^0[u]$ irreducible, $E \subset G$ nowhere dense and analytic such that $D_\omega \subset E$. Then $\Zero{\rest\omega{G \setminus E}} = \Zero\omega \cap ((G \setminus E) \times \C)$ is a connected subset of $\C^n \times \C$.
+\end{fact}
+
+Furthermore, we note the following (compare \cref{qu:quadratic coverings}, \cref{it:quadratic coverings-a}): When $f \in \O(G)$ and $\omega = (-f)u^0 + 0u^1 + 1u^2$, then $\omega$ is reducible in $\O(G)^0[u]$ if and only if $f = g^2$ for some $g \in \O(G)$. The proof of this is straightforward. In fact, the result holds for an arbitrary integral domain in place of $\O(G)$.
+
+Specifically now, let $n = 1$, let $G = \set{z \in \C \mid 1 < \abs z < 2}$, and let $f \colon \C \to \C$ given by $f(z) = z^7$.
+\begin{claim}
+There does not exist $g \in \O(G)$ such that $g^2 = \rest fG$.
+\end{claim}
+\begin{proof}
+Assume such $g$ existed. Then
+\[
+7\frac1z = \frac{f'}f(z) = \frac{2gg'}{g^2}(z) = 2\frac{g'}g(z)
+\]
+for all $z \in G$. Integrating over a circle with radius $\frac32$ centered at $0 \in \C$, and dividing by $2\pi\ii$, we deduce $7 = 2k$ for some $k \in \Z$; contradiction.
+\end{proof}
+
+Therefore, $\omega$ given by $\omega = (-\rest fG)u^0 + 0u^1 + 1u^2$ is irreducible in $\O(G)^0[u]$. The discriminant of $\omega$ is given by $\Delta_\omega = 0^2 - 4(-\rest fG) = 4\rest fG$. So, $D_\omega = \Zero{\Delta_\omega} = \emptyset$, and we see that
+\[
+A_3 = \set{(z,u) \in G \times \C \mid \omega(z,u) = 0} = \Zero\omega
+\]
+is connected in $\C \times \C$ by means of the initial fact (use $E = \emptyset$).
+
+Likewise, replacing $G$ by $\C^*$, we deduce that $A_1$ is connected in $\C \times \C$. Replacing $G$ by $\C^* \setminus \set1 = \C \setminus \set{0,1}$ instead, we deduce that $A_2 \setminus \set{(0,0)}$ is connected. By the continuity of roots (\cref{qu:continuity of roots}), $A_2 \setminus \set{(0,0)}$ lies dense in $A_2$. So $A_2$ is connected, too.
+
+Finally, $A_4$ is disconnected. Proof: Since $H := \C \setminus \R_{\ge0}$ is simply connected and $f$ is nowhere zero on $H$, there exists a holomorphic function $g \in \O(H)$ such that $g^2 = \rest fH$. Thus
+\begin{align*}
+A_4 &= \set{(z,u) \in H \times \C \mid (u - g(z))(u + g(z)) = 0} \\
+&= \set{(z,g(z)) \mid z \in H} \cup \set{(z,-g(z)) \mid z \in H} \\
+&= \Gamma_g \cup \Gamma_{-g}.
+\end{align*}
+Since $g(z) \ne -g(z)$ for all $z \in H$, there exist disjoint open neighborhoods of $\Gamma_g$ and $\Gamma_{-g}$ in $\C \times \C$.\footnote{Probably a future exercise will be devoted to this not entirely obvious fact.} This makes $\Gamma_g$ and $\Gamma_{-g}$ open in $A_4$, Q.E.D.
+
+\item We have
+\begin{align*}
+B_1 &= \set{(z,u) \in \C^* \times \C \mid (u - z^2)(u + z^2) = 0} \\
+&= \set{(z,z^2) \mid z \in \C^*} \cup \set{(z,-z^2) \mid z \in \C^*} \\
+&= \Gamma_h \cup \Gamma_{-h},
+\end{align*}
+where $h \colon \C^* \to \C$ is given by $h(z) = z^2$. Like in the previous item we conclude that $\Gamma_h$ and $\Gamma_{-h}$ are disjoint open subsets of $B_1$. Moreover, $\Gamma_h$ and $\Gamma_{-h}$ are connected, for they are images of continuous functions $\C^* \to \C^* \times \C$ (actually both graphs are homeomorphic to $\C^*$). Thus $\set{\Gamma_h,\Gamma_{-h}}$ is the set of connected components of $B_1$.
+
+\begin{claim}
+$B_2$ is connected, whence $\set{B_2}$ is the set of connected components of $B_2$.
+\end{claim}
+\begin{proof}
+Evidently, $B_2 = \Gamma_{\tilde h} \cup \Gamma_{-\tilde h}$, where $\tilde h \colon \C \to \C$ is given by $\tilde h(z) = z^2$. Just like above we conclude that $\Gamma_{\tilde h}$ and $\Gamma_{-\tilde h}$ are both connected (homeomorphic to $\C$ actually). Since $\Gamma_{\tilde h} \cap \Gamma_{-\tilde h}$ contains the point $(0,0)$, we are done.
+\end{proof}
+
+\item Take $\gamma(s) = (\ee{2s\pi\ii},\ee{7s\pi\ii})$ and $\delta$ as the concatenation of $\delta_1^-$ (the inverse path of $\delta_1$) and $\delta_2$, where $\delta_1(s) = (s,s^2)$ and $\delta_2(s) = (s,-s^2)$ for all $s \in [0,1]$. The verification of the properties is straightforward.
+
+\item Draw sketches \ldots First aspect (set theory): $A_{2,\R} := A_2 \cap (\R \times \R)$ does not have points $(z,u)$ with $z<0$, whereas $A_2$ surely does (due to the fundamental theorem of algebra). Differently put, the projection of $A_{2,\R}$ to the first coordinate does not map surjectively onto $\R \setminus \set 1$ (it yields $\R_{\ge0} \setminus \set1$ instead), whereas the projection of $A_2$ to the first coordinate maps surjectively onto $\C \setminus \set1$. For $B_2$ that aspect is okay.
+
+Second aspect (topology): $B_{2,\R} := B_2 \cap (\R \times \R)$ minus the origin $(0,0)$ has four connected components, whereas $B_2 \setminus \set{(0,0)} = B_1$ has only two. Similarly, $A_{2,\R}$ has three connected components, whereas $A_2$ itself is connected.
+\end{solenum}
+\end{solution}
+
+\begin{question}
+\label{qu:unbranched points}
+Put $G := \C^2$ and let $\omega,f \colon G \times \C \to \C$ be given by $\omega(z,u) = u^2 - z_1u$ and $f(z,u) = z_1z_2$, respectively. Define $A := \Zero\omega$ and $N := \Zero{\omega,f}$.
+\begin{enumerate}
+\item Prove that $N$ is nowhere dense in $A$.
+\item Find a holomorphic function $g$ on $G$ such that $\Zero g = N'$, where $N'$ denotes the image of $N$ under the first projection $G \times \C \to G$.
+\item Determine the set of points $a \in N'$ such that the germ $g_a$ of $g$ at $a$ is $z_2$-regular in the ring $\RingH2$ of convergent power series in two variables. Moreover, whenever $g_a$ is not $z_2$-regular, determine the set of shearings $\sigma \colon \RingH2 \to \RingH2$ such that $\sigma(g_a)$ is $z_2$-regular.
+\item Determine the set of unbranched points of $N$ (as defined in the lecture).
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item Since $N$ is clearly closed in $A$, we need to show that the interior of $N$ in $A$ is empty. Assume, to the contrary, there exists an interior point $p$ of $N$ in $A$. Then there exists an open neighborhood $U$ of $p$ in $A$ such that $f$ vanishes entirely on $U$. Thus $\underline f \colon G \to \C$ given by $\underline f(z) = z_1z_2$ vanishes entirely on $\pr1(U)$. By \cref{qu:weierstrass map}, however, $\pr1(U)$ is open in $G$, which would imply that $\underline f$ is the zero function on $G$ according to the identity theorem---contradiction.
+
+\item Take $g \colon G \to \C$ given by $g(z) = z_1z_2$. Then evidently $N' = \pr1(N) \subset \Zero g$. On the other hand, for all $z \in \Zero g$, there exists the point $(z,0)$ in $N$ such that $\pr1(z,0) = z$. Thus $\Zero g \subset N'$, too.
+
+\item Write $X_1$ and $X_2$ for the variables of the formal power series ring $\RingH2$. For all $a \in G$, we have $g(z) = ((z_1 - a_1) + a_1)((z_2 - a_2) + a_2)$ for all $z \in G$. Thus $g_a = (X_1 + a_1)(X_2 + a_2) = (X_1 + a_1)X_2 + (X_1 + a_1)a_2$ in $\RingH2$. So we see that $g_a$ is $z_2$-regular if and only if $a_1 \ne 0$.
+
+In case $a_1 = 0$, we have $g_a = X_1X_2 + X_1a_2$. Any shearing $\sigma \colon \RingH2 \to \RingH2$ in the direction of $z_2$ (or better $X_2$) is given by a complex number $c$ such that $\sigma(X_1) = X_1 + cX_2$. Given this,
+\[
+\sigma(g_a) = (X_1 + cX_2)X_2 + (X_1 + cX_2)a_2 = cX_2^2 + (X_1 + ca_2)X_2 + X_1a_2,
+\]
+whence $\sigma(g_a)$ is $z_2$-regular if and only if $c \ne 0$.
+
+\item \begin{claim} The set of unbranched points of $N$ is precisely
+\[
+N \setminus \set{(0,0,0)} = \set{(\zeta,0,0) \mid \zeta \in \C^*} \cup \set{(0,\zeta,0) \mid \zeta \in \C^*} \cup \set{(\zeta,0,\zeta) \mid \zeta \in \C^*}.
+\]
+\end{claim}
+
+\begin{proof}
+In the first place, note that $(0,0,0) = ((0,0),0) \in G \times \C$ is not an unbranched point of $N$, for $(0,0) = \pr1((0,0),0)$ is clearly not a regular point of the analytic set $N' = \Zero g$ in $G$.
+
+Next, let $(z,u) \in N \setminus \set{((0,0),0)}$. From the equations of $\omega$ and $f$ we deduce there exists $\zeta \in \C^*$ such that precisely one of the following alternatives holds: $(z,u) = (\zeta,0,0)$, or $(z,u) = (0,\zeta,0)$, or $(z,u) = (\zeta,0,\zeta)$ (make a distinction as to whether $u = 0$ or not). Assume the first. Let $\omega' \colon \C^* \times \C \to \C$ be given by $\omega'(z_1,z_2) = z_2$. Then $\omega'$ is a pseudopolynomial over $\C^*$ and $N' \cap (\C^* \times \C) = \Zero{\omega'}$. Moreover, the discriminant set of $\omega'$ over $\C^*$ is evidently empty and $\pr1(z,u) = z = (\zeta,0)$ lies in $\Zero{\omega'}$. Set $V := \C^* \times \set0 = N' \cap (\C^* \times \C)$ and consider the function $h \colon V \to \C$ given by $h(w) = 0$ for all $w \in V$. Then $V$ is an open neighborhood of $z = (\zeta,0)$ in $N'$ and $h$ is holomorphic on $V$. Furthermore,
+\[
+N \cap (V \times \C) = \set{((\eta,0),0) \mid \eta \in \C^*} \cup \set{((\eta,0),\eta) \mid \eta \in \C^*},
+\]
+which, in a neighborhood of $(z,u) = ((\zeta,0),0)$, coincides with the graph of $h$:
+\[
+\Gamma_h = \set{(w,h(w)) \mid w \in V} = \set{(w,0) \mid w \in \C^* \times \set0}.
+\]
+This shows that $(z,u)$ is an unbranched point of $N$.
+
+Next, assume the last of the alternatives above; that is, $(z,u) = (\zeta,0,\zeta)$. Then again $\pr1(z,u) = z = (\zeta,0)$. This time, in a neighborhood of $(z,u)$, the set $N \cap (V \times \C)$ coincides with the graph of the holomorphic function $h \colon V \to \C$ given by $h(\eta,0) = \eta$ for all $\eta \in \C^*$.
+
+Finally, assume $(z,u) = (0,\zeta,0)$. Then $\pr1(z,u) = z = (0,\zeta)$ and there exists no neighborhood $U$ of $z$ in $G$ such that on $U$ the analytic set $N'$ coincides with the zero set of a pseudopolynomial over an open neighborhood of $0$ in $\C$. As indicated in the previous item, we may apply a shearing in the $z_2$ direction (locally at $z$) in order to amend that situation. A technically easier way out, however, is the following. Instead of writing $N'$ as the zero set of a pseudopolynomial in $z_2$, we write $N'$ as the zero set of a pseudopolynomial in $z_1$. Concretely, set $\omega'_1(z_1,z_2) = z_1$ for $z \in \C \times \C^*$. Then $\omega'_1$ is a pseudopolynomial in $z_1$ over $\C^*$ and $\Zero{\omega'_1} = N' \cap (\C \times \C^*)$. The discriminant set of $\omega'_1$ is empty and $z = (0,\zeta) \in \Zero{\omega'_1}$. Moreover, $V_1 := \set0 \times \C^*$ is an open neighborhood of $z$ in $N'$ and $h_1 \colon V_1 \to \C$ with $h_1(w) = 0$ for all $w$ is holomorphic. We have
+\[
+N \cap (V_1 \times \C) = \set{((0,\eta),0) \mid \eta \in \C^*},
+\]
+which is precisely the graph of $h_1$. This shows that $(z,u)$ is an unbranched point of $N$, which was to be demonstrated.
+\end{proof}
+\end{solenum}
+\end{solution}
+
+\begin{question}
+\label{qu:embedded-analytic}
+Put $G := \C$ and let $\omega_1,\omega_2 \colon G \times \C \to \C$ be given by $\omega_1(z,u) = u^2 - z^2$ and $\omega_2(z,u) = u^2 - z^3$, respectively. Define
+\[
+\hat A := \set{(z,u) \in G \times \C^2 \mid \omega_1(z,u_1) = \omega_2(z,u_2) = 0}.
+\]
+\begin{enumerate}
+\item Calculate the union discriminant set $D$ of the pair $(\omega_1,\omega_2)$ of pseudopolynomials over $G$.
+\item For all $z \in G \setminus D$, determine the cardinality of the set $\pi^{-1}(\set z)$, where $\pi \colon \hat A \to G$ denotes the restriction of the first projection $G \times \C^2 \to G$.
+\item Determine the irreducible embedded-analytic components of $\hat A$. Give explicit descriptions of these components writing each as the zero set of a finite number of holomorphic functions on $G \times \C^2$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item In $\O(G)^0[u]$ the corresponding element of $\omega_1$ is $(-f)u^0 + 0u^1 + 1u^2$, where $f \colon G \to \C$ is the function $f(z) = z^2$. Thus the discriminant of $\omega_1$ is $0^2 - 4(-f) = 4f$ in $\O(G)$. The discriminant set of $\omega_1$ is the zero set of this: $\Zero{4f} = \set0$. Similarly, the discriminant set of $\omega_2$ is seen to be $\set0$. So, the union discriminant set $D$ of the pair $(\omega_1,\omega_2)$ is $\set0 \cup \set0 = \set0$.
+
+\item Let $z \in G \setminus D = \C^*$. Then
+\begin{align*}
+\pi^{-1}(\set z) &= \set z \times \set{u \in \C^2 \mid \omega_1(z,u_1) = 0 \land \omega_2(z,u_2) = 0} \\
+&= \set z \times \set{u \in \C \mid u^2 = z^2} \times \set{u \in \C \mid u^2 = z^3}.
+\end{align*}
+Clearly, the last two factors have cardinality $2$ each. So, the cardinality of $\pi^{-1}(\set z)$ calculates as $1 \cdot 2 \cdot 2 = 4$.
+
+\item \begin{claim} The connected components of $\hat A' := \hat A \cap ((G \setminus D) \times \C^2)$ are precisely the following:
+\begin{align*}
+A_1' &:= \set{(z,u) \in \C^* \times \C^2 \mid u_1 = z \land u_2^2 = z^3}, \\
+A_2' &:= \set{(z,u) \in \C^* \times \C^2 \mid u_1 = -z \land u_2^2 = z^3}.
+\end{align*}\end{claim}
+
+\begin{proof}
+First of all, notice that $A_1' \cup A_2' = \hat A'$. Moreover, $A_1'$ and $A_2'$ are disjoint and nonempty. To show that $A_1'$ is connected, notice that $A_1'$ is homeomorphic to
+\[
+A' := \set{(z,u_2) \in \C^* \times \C \mid u_2^2 = z^3} \subset \C^* \times \C
+\]
+in virtue of the map sending $(z,u) = (z,(u_1,u_2)) \in A_1'$ to $(z,u_2)$, with inverse sending $(z,u_2) \in A'$ to $(z,(z,u_2))$. The analytic set $A'$ is connected in $\C^* \times \C$, for the pseudopolynomial $\omega = (-z^3)u^0 + 0u^1 + 1u^2$ is irreducible in the monoid $\O(\C^*)^0[u]$. See \cref{qu:connectedness} for details. The connectedness of $A_2'$ is established the very same way. To conclude that $A_1'$ and $A_2'$ are actually the connected components of $\hat A'$, it suffices to remark that $A_1'$ and $A_2'$ are both open in $\hat A'$. For that matter, recall that the graphs $\set{(z,z) \mid z \in \C^*}$ and $\set{(z,-z) \mid z \in \C^*}$ are open in $\set{(z,u_1) \in \C^* \times \C \mid u_1^2 = z^2}$.
+\end{proof}
+
+According to the claim, the irreducible embedded-analytic components of $\hat A$ are precisely the closures of $A_1'$ and $A_2'$ in $\hat A$. These are
+\[
+\hat A_1 := \set{(z,u) \in \C \times \C^2 \mid u_1 = z \land u_2^2 = z^3}
+\]
+and
+\[
+\hat A_2 := \set{(z,u) \in \C \times \C^2 \mid u_1 = -z \land u_2^2 = z^3},
+\]
+respectively, as follows from the continuity of roots of the equation $u_2^2 = z^3$ when $z \in \C^*$ tends to $0$.
+\end{solenum}
+\end{solution}
+
+\begin{question}[name=Exercise*]
+\label{qu:quadratic coverings}
+Let $n$ be a natural number, $G$ a domain in $\C^n$. 
+\begin{enumerate}
+\item\label{it:quadratic coverings-a} Formulate, in the language of the ring $\O(G)$, a condition on $f \in \O(G)^\times$ which is equivalent to $\set{(z,u) \in G \times \C \mid u^2 = f(z)}$ being connected in $G \times \C$. Prove this equivalence.
+\item Prove or disprove: For all $f \in \O(G)$ such that $\Zero f \ne \emptyset$, the set $\set{(z,u) \in G \times \C \mid u^2 = f(z)}$ is connected in $G \times \C$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item In the language of rings\footnote{The language of rings is given by the function symbols $\mathsf0,\mathsf1,{-},{+},{\cdot}$ with arities $0,0,1,2,2$, in that order. The equality sign $=$ is assumed to be present as a special predicate symbol.} a condition is: $\neg\exists g(g \cdot g = f) \lor (f = \mathsf0)$.
+\begin{claim}
+Let $f \in \O(G)^\times$. Then $A := \set{(z,u) \in G \times \C \mid u^2 = f(z)}$ is disconnected if and only if there exists $g$ such that $g^2 = f$ and $f \ne 0$ in $\O(G)$.
+\end{claim}
+\begin{proof}
+If there exists $g$ such that $f = g^2$ in $\O(G)$, then
+\[
+A = \set{(z,g(z)) \mid z \in G} \cup \set{(z,-g(z)) \mid z \in G}.
+\]
+The two sets on the right, call them $A_1$ and $A_2$, are disjoint and both open in $A$, as discussed in the solution of \cref{qu:connectedness}. When $f \ne 0$ in $\O(G)$, we conclude $G \ne \emptyset$, so that both $A_1 \ne \emptyset$ and $A_2 \ne \emptyset$. This proves the “if” part.
+
+For the “only if” part define $\omega \colon G \times \C$ by $\omega(z,u) = u^2 - f(z)$. Then $\omega$ is a pseudopolynomial over $G$ with discriminant given by $\Delta_\omega(z) = 4f(z)$ (see the solution of \cref{qu:connectedness}). Since $f$ is invertible in $\O(G)$, the discriminant set of $\omega$, which is the zero set of the discriminant, is empty. So, by virtue of the decomposition theorem in the lecture, $\omega$ is reducible in $\O(G)^0[u]$, for $A = \Zero\omega$ is disconnected. That is, there are nonunits $\omega'$ and $\omega''$ in $\O(G)^0[u]$ such that $\omega = \omega'\omega''$. In particular, $\O(G)$ is not the trivial ring (i.e, $G \ne \emptyset$). Looking at the polynomials' degrees, we deduce that $\omega' = -g'u^0 + 1u^1$ and $\omega'' = -g''u^0 + 1u^1$ for some $g',g'' \in \O(G)$. It follows that $-g'' = g'$ and $-f = (-g')(-g'') = -g'g'$, whence $g'^2 = f$. Since $G$ is nonempty and $f$ is invertible in $\O(G)$, we have $f \ne 0$ in $\O(G)$.
+\end{proof}
+
+\item This statement is indeed true.
+\begin{proof}
+When $f = 0$ in $\O(G)$, then $A := \set{(z,u) \in G \times \C \mid u^2 = f(z)} = G \times \set0$, so that $A$ is certainly connected in $G \times \C$. So, assume $f \ne 0$ in $\O(G)$. Define $\omega$ as above. Then the discriminant set $D$ of $\omega$ equals the zero set of $f$, whence it is an analytic hypersurface in $G$. In particular, $D$ is nowhere dense in $G$. Define $G' := G \setminus G$ and $A' := A \cap (G' \times \C)$. By the previous item, $A'$ is either connected or possess precisely two connected components (depending on whether $\rest f{G'}$ is not square in the ring $\O(G')$).
+
+Assume that $A'$ is connected. Then the closure of $A'$ in $A$ is connected too. By the continuity of roots, however, (see \cref{qu:continuity of roots}) the closure of $A'$ in $A$ is precisely $A$ (i.e., $A'$ lies dense in $A$). Hence, $A$ is connected.
+
+Assume that $A'$ is disconnected now. Denote the connected components of $A'$ by $A'_+$ and $A'_-$. Then the closures $A_+$ and $A_-$ of respectively $A'_+$ and $A'_-$ in $A$ are connected too. Moreover, again by the continuity of roots, $A_+ \cup A_- = A$. We know that there exists a point $a \in D$. I contend that $(a,0)$ lies in the intersection of $A_+$ and $A_-$. Observe that this does not follow from the continuity of roots as stated in \cref{qu:continuity of roots}. Nevertheless, the previous item shows that $A'_+$ and $A'_-$ are given as the graphs of $g$ and $-g$, respectively, where $g$ is a holomorphic function on $G'$ such that $g^2 = \rest f{G'}$. Thus since there exists a sequence $(z_\nu)_{\nu \in \N}$ in $G'$ converging to $a$ in $G$, there exist sequences $(z_\nu,g(z_\nu))$ and $(z_\nu,-g(z_\nu))$ in $A'_+$ and $A'_-$ respectively, both converging to $(a,0)$ in $A$. This is because $g(z_\nu)^2 = f(z_\nu)$ converges to $f(a) = 0$ when $\nu$ goes to infinity. We conclude that $(a,0) \in A_+ \cap A_-$. As a consequence, $A$ is connected.
+\end{proof}
+\end{solenum}
+\end{solution}
+
+\begin{question}[name=Exercise*]
+\label{qu:singular cubic}
+Let
+\[
+A = \set{(z,u) \in \C \times \C \mid u^2 = (1+z)z^2}.
+\]
+Prove the following:
+\begin{enumerate}
+\item There exist open neighborhoods $U$ and $U'$ of $0$ in $\C$ as well as a biholomorphic map $\phi \colon U \to U'$ such that $A \cap (U \times \C)$ is mapped onto
+\[
+A' := \set{(w,u) \in U' \times \C \mid u^2 = w^2}
+\]
+by $\phi \times \id\C \colon U \times \C \to U' \times \C$.
+\item There exist open neighborhoods $V$ and $V'$ of respectively $-1$ and $0$ in $\C$ as well as a biholomorphic map $\psi \colon V \to V'$ such that $A \cap (V \times \C)$ is mapped onto
+\[
+B' := \set{(w,u) \in V' \times \C \mid u^2 = w}
+\]
+by $\psi \times \id\C \colon V \times \C \to V' \times \C$.
+\item Let $\gamma \colon [0,2\pi] \to \C$ be given by $\gamma(s) = \ee{si}(-\frac12)$ and let $\tilde\gamma \colon [0,2\pi] \to A$ be continuous such that $\pi \circ \tilde\gamma = \gamma$, where $\pi \colon A \to \C$ denotes the restriction of the first projection $\C \times \C \to \C$. Then $\tilde\gamma(0) = \tilde\gamma(2\pi)$.
+\item There exists a continuous path $\tilde\delta \colon [0,2\pi] \to A$ such that
+\[
+\pi(\tilde\delta(s)) = (-1) + \frac12\ee{si}, \quad \forall s \in [0,2\pi],
+\]
+yet $\tilde\delta(0) \ne \tilde\delta(2\pi)$.
+\end{enumerate}
+What do the above observations tell you about the topology of $A$?
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item Take $D$ to be the unit disk in $\C$ centered at $0$. We know there exists a unique holomorphic function $w$ on $D$ such that $w(z)^2 = 1+z$ for all $z \in D$ and $w(0) = 1$.\footnote{Note that $w$ is given explicitly by the formula $w(z) = \sum_{k=0}^\infty \binom{\frac12}k z^k$ for all $z \in D$.} Define $\tilde\phi \colon D \to \C$ as $\tilde\phi(z) = w(z)z$. Then $\tilde\phi'(0) = \binom{\frac12}0 = 1 \ne 0$ (look at the power series expansion), so that there exists an open neighborhood $U$ of $0$ in $D$ such that $U' := \tilde\phi(U)$ is an open neighborhood of $\tilde\phi(0) = 0$ in $\C$ and $\phi := \rest{\tilde\phi}U \colon U \to U'$ is a biholomorphism.
+
+Let $(z,u) \in U \times \C$ be arbitrary now and $w = \phi(z)$. Then $(w,u) = \phi \times \id\C(z,u)$, and we have $(w,u) \in A'$ if and only if $u^2 = w^2 = \phi(z)^2 = (1+z)z^2$; that is, if and only if $(z,u) \in A$. This shows that $\phi \times \id\C(A) = A'$.
+
+\item Define $\tilde\psi \colon \C \to \C$ by $\tilde\psi(z) = (1+z)z^2$. Then $\tilde\psi$ is holomorphic on $\C$ with $\tilde\psi'(-1) = 1 \ne 0$, so that, similar to the above, there exists an open neighborhood $V$ of $-1$ in $\C$ such that $V' := \tilde\psi(V)$ is an open neighborhood of $\tilde\psi(-1) = 0$ in $\C$ and the restriction $\psi := \rest{\tilde\psi}V$ furnishes a biholomorphism between $V$ and $V'$. Evidently, for all $(z,u) \in V \times \C$, we have $\psi \times \id\C(z,u) = ((1+z)z^2,u) \in B'$ if and only if $(z,u) \in A$.
+
+\item Define
+\begin{align*}
+\tilde A' &:= \set{(w,u) \in \C^* \times \C \mid u^2 = w^2}, \\
+\tilde A'_+ &:= \set{(w,u) \in \C^* \times \C \mid u = w}, \\
+\tilde A'_- &:= \set{(w,u) \in \C^* \times \C \mid u = -w}.
+\end{align*}
+Then $\tilde A'_+$ and $\tilde A'_-$ are precisely the connected components of $\tilde A'$. The argument is similar to the one for \cref{qu:connectedness}, \cref{it:connectedness-b}. In particular, $\tilde A'_+$ and $\tilde A'_-$ are disjoint open subsets of $\tilde A'$ and $\tilde A'_+ \cup \tilde A'_- = \tilde A'$.
+
+We know that $\tilde\phi(z) = 0$ only if $z = 0$. Therefore, the image of $\gamma' := \tilde\phi \circ \gamma$ (notation not to be confused with the derivative of $\gamma$) lies in $\C^*$, for the image of $\gamma$ lies in $D \setminus \set0$. The image of $\tilde\gamma' := (\tilde\phi \times \id\C) \circ \tilde\gamma$ hence lies in $\tilde A'$, for we have
+\[
+\pr1 \circ \tilde\gamma' = \pr1 \circ (\tilde\phi \times \id\C) \circ \tilde\gamma = \tilde\phi \circ \pr1 \circ \tilde\gamma = \tilde\phi \circ \gamma = \gamma'.
+\]
+Since $\tilde A'_+$ and $\tilde A'_-$ are the connected components of $\tilde A'$, we conclude that either the image of $\tilde\gamma'$ is contained in $\tilde A'_+$ or it is contained in $\tilde A'_-$. Since the restrictions of $\pr1$ to $\tilde A'_+$ and $\tilde A'_-$ are both injective and since $\pr1 \circ \tilde\gamma' = \gamma'$ is a closed loop in $\C^*$ (i.e., $\gamma'(0) = \gamma'(2\pi)$), we deduce that $\tilde\gamma'(0) = \tilde\gamma'(2\pi)$. Since furthermore the restriction of $\tilde\phi \times \id\C$ to
+\[
+\pi^{-1}(\set{\gamma(0)}) = \pi^{-1}(\set{\gamma(2\pi)}) = \pi^{-1}\paren*{\set*{-\frac12}} = \set*{\paren*{-\frac12,\frac1{2\sqrt2}},\paren*{-\frac12,-\frac1{2\sqrt2}}}
+\]
+is injective, we conclude that $\tilde\gamma(0) = \tilde\gamma(2\pi)$.
+
+\item Take $\tilde\delta$ to be given by
+\[
+\tilde\delta(s) = \paren*{(-1) + \frac12\ee{s\ii}, \frac1{\sqrt2}\ee{\frac12s\ii}\paren*{(-1) + \frac12\ee{s\ii}}}
+\]
+for $s \in [0,2\pi]$. Then clearly, $\tilde\delta \colon [0,2\pi] \to A$ is a continuous map (in particular, $\tilde\delta([0,2\pi]) \subset A$), we have
+\[
+\pi(\tilde\delta(s)) = (-1) + \frac12\ee{s\ii}
+\]
+for all $s \in [0,2\pi]$, and
+\[
+\tilde\delta(0) = \paren*{\frac12,\frac1{2\sqrt2}} \ne \paren*{\frac12, -\frac1{2\sqrt2}} = \tilde\delta(2\pi),
+\]
+which was to be demonstrated.
+\end{solenum} 
+\end{solution}
+
+\begin{question}[subtitle=The topology of the divisor map, use=false]
+Let $\Omega$ be an open subset of the complex plane $\C$. Recall that a \emph{divisor} on $\Omega$ is a map $d \colon \Omega \to \Z$ such that $S := \set{z \mid d(z) \ne 0}$ is locally finite in $\Omega$ (i.e., there exists an open cover of $\Omega$ by subsets $U$ such that $S \cap U$ is finite). The divisor $d$ is called \emph{finite} when $S$ is a finite set; $d$ is called \emph{positive} when $d(z) \ge 0$ for all $z \in \Omega$. When $d$ is finite, the \emph{degree} of $d$ is defined as
+\[
+\deg d := \sum_{z \in \Omega} d(z).
+\]
+\end{question}
+
+\begin{question}[use=false]
+Let $k$ be a natural number. Denote by $\SG k$ the symmetric group of degree $k$ (i.e., the group of bijective self-maps of the set $\set{1,\dots,k}$) and recall that for any topological space $X$, the assignment
+\[
+X^k \times \SG k \to X^k, \quad ((x_1,\dots,x_k),s) \mapsto (x_{s(1)}, \dots, x_{s(k)})
+\]
+defines a right action of $\SG k$ on $X^k$. We write $\Sym kX$ for the topological quotient space and $\pi^k_X \colon X^k \to \Sym kX$ for the quotient map.
+\begin{enumerate}
+\item Let $\sigma = (\sigma_1,\dots,\sigma_k) \colon \C^k \to \C^k$ be the function whose components are the elementary symmetric functions of $k$ variables (see last semester's lecture). Show there exists a unique map $\phi \colon \Sym k\C \to \C^k$ such that $\sigma = \phi \circ \pi^k_\C$. Moreover, show that this $\phi$ is a homeomorphism.
+\item Let $\nu \colon \C^k \to \C^k$ be given by $\nu_i(z) = z_1^i + \dots + z_k^i$ for all $i \in \set{1,\dots,k}$ and all $z \in \C^k$. Show there exists a homeomorphism $\psi \colon \C^k \to \C^k$ such that $\nu = \psi \circ \sigma$.
+\item Show that $\Sym k\Omega$ is an open topological subspace of $\Sym k\C$ whenever $\Omega$ is an open subspace of $\C$. Moreover, $\pi^k_\Omega = \rest{\pi^k_\C}{\Omega^k}$.
+\item Define $F$ to be subset of $\C^k$ consisting of vectors $z$ such that $z_i \ne z_j$ whenever $i,j \in \set{1,\dots,k}$ and $i \ne j$. Show that $F$ is invariant under the action of $\SG k$ on $\C^k$ and that the quotient of $F$ by $\SG k$ is an open subspace of $\Sym k\C$.
+\item Show that the action of $\SG k$ on $F$ is free, properly discontinuous, and analytic so that (in virtue of last semester's theory) there exists a unique $k$-dimensional complex structure on the quotient $F/\SG k$ such that the quotient map $F \to F/\SG k$ is an unbranched holomorphic covering.
+\item Show that the equivalence class of the atlas $\set\phi$ is the unique $k$-dimensional complex structure on $\Sym k\C$ with the property that it induces the $k$-dimensional complex structure of the previous item on $F/\SG k$.
+\end{enumerate}
+\end{question}
+
+\begin{question}[subtitle={Generalizing the theorem on branched coverings}]
+\label{qu:covering space}
+Let $n$ and $d$ be a natural numbers, $G$ a domain in $\C^n$, and $(\omega_1,\dots,\omega_d)$ a $d$-tuple of pseudopolynomials over $G$ with union discriminant set $D$. Let $G' = G \setminus D$ and
+\[
+\hat A' = \set{(z,u) \in G' \times \C^d \mid \forall i \in \set{1,\dots,d} \; \omega_i(z,u_i) = 0}.
+\]
+\begin{enumerate}
+\item\label{it:covering space-a} Show that $\hat A'$ is an $n$-dimensional complex submanifold of $G' \times \C^d$.
+\item\label{it:covering space-b} Show that $\pi \colon \hat A' \to G'$, the restriction of the first projection map $G' \times \C^d \to G'$, is a \emph{finite topological covering space}; that is, for all $z \in G'$ there exists an open neighborhood $W$ of $z$ in $G'$ as well as a finite tuple $(U_j)_{j \in J}$ of open subsets of $\hat A'$ such that
+\begin{enumerate}
+\item $\pi^{-1}(W) = \bigcup_{j \in J} U_j$,
+\item $U_j \cap U_k = \emptyset$ whenever $j \ne k$,
+\item $\rest\pi{U_j} \colon U_j \to W$ is a homeomorphism for all $j \in J$.
+\end{enumerate}
+
+How does the cardinality of $J$ (i.e., the number of $U_j$'s) relate to the degrees of the pseudopolynomials $\omega_1,\dots,\omega_d$ over $G$?
+\item\label{it:covering space-c} Deduce from the previous item that whenever $Z$ is a connected component of $\hat A'$, then $\rest\pi Z \colon Z \to G'$ is surjective.
+\item Further deduce that the number of connected components of $\hat A'$ is finite.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+To begin with, note that in case there exists an index $i \in \set{1,\dots,d}$ such that $\omega_i$ is not without multiple factors (this includes the case where $\omega_i$ is not of strictly positive degree), we have $D = G$ and consequently $G' = \emptyset$ and $\hat A' = \emptyset$. So, in that case, all given assertions are valid for trivial reasons. In what follows, we assume that for all $i$, the pseudopolynomial $\omega_i$ is without multiple factors over $G$. In particular, $G \ne \emptyset$ and $D$ is nowhere dense (and analytic) in $G$, whence $G' \ne \emptyset$ too.
+
+\begin{solenum}
+\item For $i \in \set{1,\dots,d}$ define $\tilde\omega_i \colon G' \times \C^d \to \C$ by $\tilde\omega_i(z,u) = \omega_i(z,u_i)$. Then $\tilde\omega_i \in \O(G' \times \C^d)$ and we have
+\[
+\hat A' = \Zero{\tilde\omega_1,\dots,\tilde\omega_d},
+\]
+whence $\hat A'$ is certainly analytic in $G' \times \C^d$. Let $(z,u) \in \hat A'$. We claim that $\hat A'$ is regular of codimension $(n+d) - n = d$ in $G' \times \C^d$ at $(z,u)$. For that matter, we show that the Jacobian rank of the tuple of functions $(\tilde\omega_1,\dots,\tilde\omega_d)$ at $(z,u)$ is equal to $d$. Let $i \in \set{1,\dots,d}$ be arbitrary. Then the partial derivative $(\tilde\omega_i)_{u_j}(z,u) = 0$ for all $j \in \set{1,\dots,d} \setminus \set i$, as follows directly from the definition of $\tilde\omega_i$. Furthermore,
+\[
+(\tilde\omega_i)_{u_i}(z,u) = (\omega_i)_u(z,u_i) \ne 0,
+\]
+because otherwise the polynomial function $\omega_i(z,\_) \colon \C \to \C$ would have a zero of order $\ge 2$ at $u_i$, meaning that $z$ would lie in the discriminant set of $\omega_i$ over $G$---contradiction.
+Recalling the definition of the (complex) Jacobian matrix, these computations imply that the $d$ rows of $\Jac{(\tilde\omega_1,\dots,\tilde\omega_d)}{z,u}$ a linearly independent as elements of $\C^{n+d}$. Therefore,
+\[
+\frk{(z,u)}{\tilde\omega_1,\dots,\omega_d} = \rk\paren*{\Jac{(\tilde\omega_1,\dots,\tilde\omega_d)}{z,u}} = d,
+\]
+which was to be demonstrated.
+
+\item Let $z \in G'$. By the \hl{theorem on branched coverings}, for all $i \in \set{1,\dots,d}$ there exist an open neighborhood $W_i$ of $z$ in $G'$ as well as a tuple $(f_{i,1},\dots,f_{i,s_i})$ of holomorphic functions on $W_i$ such that $f_{i,j}(w) \ne f_{i,k}(w)$ for $j \ne k$ and $w \in W_i$, and
+\[
+\omega_i(w,u_i) = (u_i - f_{i,1}(w)) \dots (u_i - f_{i,s_i}(w))
+\]
+for all $(w,u_i) \in W_i \times \C$. Here, $s_i$ denotes the degree of the pseudopolynomial $\omega_i$ over $G$. Define $W = W_1 \cap \dots \cap W_d$, define $s = s_1 \dots s_d$, and define
+\[
+U_j := \set{(w,(f_{1,j_1}(w),\dots,f_{d,j_d}(w))) \mid w \in W}
+\]
+for all $j = (j_1,\dots,j_d) \in \prod_{i=1}^d \set{1,\dots,s_i} =: J$. Then evidently,
+\[
+\pi^{-1}(W) = \bigcup_{j \in J} U_j,
+\]
+and $U_j \cap U_k = \emptyset$ whenever $j,k \in J$ and $j \ne k$. Moreover, $U_j$ being the graph of a continuous function from $W$ to $\C^d$, the restriction of $\pi$ (or $\pr1$) to $U_j$ is a homeomorphism between $U_j$ and $W$. It remains to prove that the $U_j$ are indeed open in $\hat A'$.
+
+For that matter fix $j \in J$. Let $k \in J \setminus \set j$ be arbitrary. Then the functions $F_j$ and $F_k$ on $W$ defining the graphs $U_j$ and $U_k$, respectively, take different values at all points $w$ of $W$. Hence there exists an open neighborhood $V_{jk}$ of $U_j$ in $W \times \C^d$ such that $V_{jk} \cap U_k = \emptyset$ (see \cref{it:two graphs-a} of \cref{qu:two graphs}). Set $V_j := \bigcap_{k \ne j} V_{jk}$. Then
+\[
+U_j = \bigcup_{l \in J} (U_l \cap V_j) = \pi^{-1}(W) \cap V_j,
+\]
+which is open in $\hat A'$, for $V_j$ is open in $W \times \C^d$.
+
+The above argument shows that $\pi \colon \hat A' \to G'$ is a topological covering space of degree the product of the degrees of the pseudopolynomials $\omega_i$ over $G$.
+
+\begin{remark}
+The above argument also suggests a new solution for \cref{it:covering space-a}. Indeed, we have shown that for all $(z,u) \in \hat A'$, there exist an open neighborhood $V$ of $(z,u)$ in $G' \times \C^d$, an open neighborhood $W$ of $z$ in $G'$, as well as a holomorphic map $F \colon W \to \C^d$ such that $\hat A' \cap V$ equals the graph $\set{(w,F(w)) \mid w \in W}$ of $F$. This implies that $\hat A'$ is an $n$-dimensional complex submanifold of $G' \times \C^d$ at $(z,u)$.
+\end{remark}
+
+\begin{remark}
+Define
+\[
+A_i' := \set{(z,u) \in G' \times \C \mid \omega_i(z,u) = 0} = \Zero{\rest{\omega_i}{G' \times \C}}
+\]
+for $i = 1,\dots,d$, and let $\pi_i \colon A_i' \to G'$ be the restriction of the first projection map $G' \times \C \to G'$. Then it is fairly easy to see that $\pi \colon \hat A' \to G'$ is isomorphic, as a topological space over $G'$, to the \emph{fiber product} of the $\pi_i$'s, $i=1,\dots,d$, over $G'$. Since we already know that $\pi_i$ is a topological covering space of degree $s_i = \deg\omega_i$, the general theory of covering spaces yields that $\pi$ is a covering space of degree the product of the $s_i$'s.
+\end{remark}
+
+\item Let $Z$ be a connected component of $\hat A'$. Then $Z$ is surely closed in $\hat A'$. By virtue of \cref{it:covering space-b}, every point of $\hat A'$ possess an open neighborhood homeomorphic to an open subset of $G'$. Therefore, every point of $\hat A'$ possess an open neighborhood which is connected. Thus $Z$ must be open in $\hat A'$. Since every topological covering space is an open map (observe that a topological covering space is in particular a local homeomorphism), $\pi(Z)$ is open in $G'$.
+I contend that $\pi$, being a finite topological covering space, is a closed map.
+\begin{proof}
+Let $B$ be closed in $\hat A'$ and $z \in G' \setminus \pi(B)$. Then there exists an open neighborhood $W$ of $z$ in $G'$ as well as a finite tuple $(U_j)_{j \in J}$ of open subsets of $\hat A'$ satisfying properties (1)--(3). For all $j \in J$, the set $U_j \setminus B$ is open in $\hat A'$, so that $\pi(U_j \setminus B)$ is an open subset of $W$. Let $a \in U_j$ be the unique element which is sent to $z$ by $\pi$. Then $a$ must lie in $U_j \setminus B$, as otherwise $a \in B$ and thus $z = \pi(a) \in \pi(B)$. Therefore, $\pi(U_j \setminus B)$ is an open neighborhood of $z$ in $G'$. The finite intersection $\tilde W := \bigcap_{j \in J} \pi(U_j \setminus B)$ is an open neighborhood of $z$ in $G'$ too. Assume that $w \in \tilde W \cap \pi(B)$. Then there exists $b \in B$ such that $\pi(b) = w$. Since $\pi^{-1}(W) = \bigcup_{j \in J} U_j$, there exists $k \in J$ such that $b \in U_k$. By the definition of $\tilde W$, there exists $b' \in U_k \setminus B$ such that $\pi(b') = w$. Thus as $\rest\pi{U_k}$ is injective, $b = b'$, yielding the contradiction $b \notin B$. In consequence, $\tilde W \cap \pi(B) = \emptyset$.
+\end{proof}
+
+From the above we infer that $\pi(Z)$ is closed (and open) in $G'$. Since $G'$ is connected (being the complement of a nowhere dense analytic in $G$) and $\pi(Z) \ne \emptyset$, we infer $\pi(Z) = G'$, which was to be demonstrated.
+
+\item Let $z \in G'$ be arbitrary. We show that the map sending an element $a \in \pi^{-1}(\set z)$ to its connected component in $\hat A'$ is a surjection from $\pi^{-1}(\set z)$ onto the set $C$ of connected components of $\hat A'$. In particular, the set $C$ will be finite.
+
+\begin{proof}
+Let $Z \in C$. Then $\pi(Z) = G'$ by \cref{it:covering space-c}. Specifically, there exists an element $a \in Z$ such that $\pi(a) = z$. Hence $a \in \pi^{-1}(\set z)$ and $Z$ is the connected component of $a$.
+\end{proof}
+\end{solenum}
+\end{solution}
+
+\begin{question}[subtitle={Nowhere density of the points over the branch locus}]
+\label{qu:points over branch}
+Let $n$ and $d$ be a natural numbers, $G$ a domain in $\C^n$, and $(\omega_1,\dots,\omega_d)$ a $d$-tuple of pseudopolynomials without multiple factors over $G$. Prove that $\hat A \cap (D \times \C^d)$ is nowhere dense in $\hat A$, where $D$ denotes the union discriminant set of the tuple $(\omega_1,\dots,\omega_d)$ of pseudopolynomials over $G$ and
+\[
+\hat A = \set{(z,u) \in G \times \C^d \mid \forall i \in \set{1,\dots,d} \; \omega_i(z,u_i) = 0}.
+\]
+\emph{Hint:} Use the continuity of roots.
+\end{question}
+
+\begin{solution}%[print]
+Since $\hat A_D := \hat A \cap (D \times \C^d)$ is obviously closed in $\hat A$, we need to prove that $\hat A_D$ has no interior points in $\hat A$. For that matter, let $p \in \hat A_D$ and let $U$ be an open neighborhood of $p$ in $\hat A$. Write $p = (a,c)$. Then $a \in D$. Since, for all $i \in \set{1,\dots,d}$, the pseudopolynomial $\omega_i$ is without multiple factors over $G$, its discriminant set $D_i := D_{\omega_i}$ is nowhere dense and analytic in $G$. Thus, $D = D_1 \cup \dots \cup D_d$ is nowhere dense and analytic in $G$. In particular, there exists a sequence $(z_\nu)_{\nu \in \N}$ in $G \setminus D$ converging to $a$ in $G$. By \cref{qu:continuity of roots}, for all $i = 1,\dots,d$, there exists a sequence $u_i = (u_{i,\nu})_{\nu \in \N}$ of complex numbers such that $u_i$ converges to $c_i$ and $\omega_i(z_\nu,u_{i,\nu}) = 0$ for all $\nu \in \N$. In consequence, there exists a (unique) sequence $(u_\nu)_{\nu \in \N}$ in $\C^d$ such that $u_{\nu,i} = u_{i,\nu}$ for all $\nu \in \N$ and $i \in \set{1,\dots,d}$. The sequence $(u_\nu)$ clearly converges to $c$ in $\C^d$, and we have $(z_\nu,u_\nu) \in \hat A$ for all $\nu$. Thus, the sequence $(p_\nu)_{\nu \in \N}$ with $p_\nu = (z_\nu,u_\nu)$ for all $\nu$ converges to $(a,c) = p$ in $\hat A$. Therefore there exists an element $\mu \in \N$ such that $p_\nu \in U$ for all $\nu \ge \mu$. Specifically, $p_\mu \in U$, but $z_\mu \notin D$ so that $p_\mu \notin D \times \C^d$ and whence $p_\mu \notin \hat A_D$. We conclude that $p$ is not an interior point of $\hat A_D$ in $\hat A$, Q.E.D.
+\end{solution}
+
+\begin{question}[subtitle=An identity theorem for embedded-analytic sets]
+\label{qu:identity theorem}
+Let $k<n$ be natural numbers and $B$ an embedded-analytic set of dimension $k$ in $n$-dimensional space defined over $H$.\footnote{In particular, $H$ is a domain in $\C^k$.} Let $A$ be an irreducible embedded-analytic set in $n$-dimensional space such that $\pi(A) \subset H$, where $\pi \colon \C^n \to \C^k$ denotes the projection to the first $k$ coordinates. Prove that $A \subset B$ if there exists a nonempty open subset $U$ of $A$ such that $U \subset B$.
+\end{question}
+
+\begin{solution}%[print]
+Since $\pi(A) \subset H$, we have $A \subset \pi^{-1}(H) =: \tilde H$. Thus $\tilde H$ is an open neighborhood of $A$ in $\C^n$. Define $F \colon \tilde H \to \C^n$ to be the identity map on $\tilde H$. Then $F$ is clearly holomorphic from $\tilde H$ to $\C^n$, and $F(\tilde H) \subset \tilde H$.
+
+Assume there exists a nonempty open subset $U$ of $A$ such that $U \subset B$. Then $F(U) = U \subset B$. Given that $A$ is irreducible as an embedded-analytic set, the mapping theorem for embedded-analytic sets implies $A = F(A) \subset B$, Q.E.D.
+\end{solution}
+
+\begin{question}[name=Exercise*, subtitle=Uniqueness of domain for embedded-analytic sets]
+\label{qu:uniqueness of domain}
+Let $n$ be a natural number. Prove that for any embedded-analytic set $A$ in $\C^n$ the dimension of $A$ as an embedded-analytic set as well as the domain over which $A$ is defined are uniquely determined by $A$. More rigorously put, prove the following: When $A$ is an embedded-analytic set of dimension $k_1$ in $\C^n$ defined over $G_1$ and, at the same time, $A$ is an embedded-analytic set of dimension $k_2$ in $\C^n$ defined over $G_2$, then $k_1 = k_2$ and $G_1 = G_2$.
+\end{question}
+
+\begin{solution}%[print]
+We prove an auxiliary statement first.
+\begin{lemma}
+\label{le:uniqueness of domain}
+Let $k<n$ be a natural number, $G$ a domain in $\C^k$, and $A$ an embedded-analytic set in $\C^n$ defined over $G$. Then
+\begin{enumerate}
+\item\label{it:uniqueness of domain-a} $\pi(A) = G$ and
+\item\label{it:uniqueness of domain-b} for all $z' \in G$, the set $\pi^{-1}(\set{z'}) \cap A$ is finite,
+\end{enumerate}
+where $\pi \colon \C^n \to \C^k$ denotes the projection to the first $k$ coordinates.
+\end{lemma}
+
+\begin{proof}
+By the definition of an embedded-analytic set, there exists a $d := (n-k)$ tuple $(\omega_1,\dots,\omega_d)$ of pseudopolynomials without multiple factors over $G$ such that $A$ is the union of a finite (nonzero) number of irreducible embedded-analytic components of the set
+\[
+\hat A := \set{z \in \C^n \mid \forall i \in \set{1,\dots,d} \; \omega_i(\pi(z),z_{k+i}) = 0}.
+\]
+An irreducible embedded-analytic component of $\hat A$ is defined to be the closure in $\hat A$ of a connected component of $\hat A^* := \hat A \cap \pi^{-1}(G \setminus D)$, where $D$ is the union discriminant set of the tuple $(\omega_1,\dots,\omega_d)$ of pseudopolynomials over $G$. In particular, $A \subset \hat A$. Let $z' \in G$. Then for all $i \in \set{1,\dots,d}$, the set $N_i := \set{u \mid \omega_i(z',u) = 0}$ is finite given that $\omega_i(z',\_) \colon \C \to \C$ is a nonzero polynomial function (note that viewed as an element of $\O(G)[u]$, the polynomial $\omega_i$ is monic). Thus
+\[
+\pi^{-1}(\set{z'}) \cap \hat A = \set{z \in \C^n \mid \pi(z) = z' \land \forall i \in \set{1,\dots,d} \; z_{k+i} \in N_i}
+\]
+is finite, whence \cref{it:uniqueness of domain-b} holds.
+
+According to \cref{qu:covering space}, \cref{it:covering space-c}, the map $\rest\pi Z \colon Z \to G \setminus D$ is surjective for all connected components $Z$ of $\hat A^*$. Since there exists at least one such $Z$ with $Z \subset A$, we have $G \setminus D \subset \pi(A)$. Let $a' \in D$. Then there exists a sequence $(z'_\nu)_{\nu \in \N}$ in $G \setminus D$ converging to $a'$ in $G$, for $D$ is nowhere dense in $G$. In consequence, there exists a sequence $(z_\nu)_{\nu \in \N}$ in $A$ such that $\pi(z_\nu) = z'_\nu$ for all $\nu \in \N$. Just like in the proof of \cref{qu:weierstrass map}, \cref{it:weierstrass map-a} one argues that the sequence $(z_\nu)$ is bounded in $\C^n$ (look at the sequence in the $(k+i)$th component for $i = 1,\dots,d$). Thus there exists a subsequence of $(z_\nu)$ converging to a point $a$ in $\C^n$. Since $\pi(a) = a' \in G$, the point $a$ lies in $\hat A$. Hence $a$ lies in $A$, for $A$ is closed in $\hat A$. This proves \cref{it:uniqueness of domain-a}.
+\end{proof}
+
+Now let $k_1,k_2 < n$ be natural numbers, $G_1$ and $G_2$ domains in $\C^{k_1}$ and $\C^{k_2}$ respectively, and assume that $A$ is both an embedded-analytic set in $\C^n$ defined over $G_1$ and an embedded-analytic set in $\C^n$ defined over $G_2$. Write $\pi_j \colon \C^n \to \C^{k_j}$ for the projection to the first $k_j$ coordinates, $j=1,2$. Assume that $k_1 < k_2$. Then $\pi_1 = \pi \circ \pi_2$, where $\pi \colon \C^{k_2} \to \C^{k_1}$ is the projection to the first $k_1$ coordinates. So we have
+\[
+G_1 = \pi_1(G) = \pi(\pi_2(G)) = \pi(G_2)
+\]
+by \cref{le:uniqueness of domain}. We know there exists an element $z' \in G_1$; otherwise $A$ would be empty. Since $G_2$ is open in $\C^{k_2}$, the set $\pi^{-1}(\set{z'}) \cap G_2$ is infinite. In turn, the set $\pi_1^{-1}(\set{z'}) \cap A$ is infinite---contradiction. Assuming $k_2 < k_1$, we deduce a similar contradiction by symmetry. As a consequence, $k_1 = k_2$, but then $G_1 = G_2$ is immediate due to our lemma, Q.E.D.
+\end{solution}
+
+\begin{question}[name=Exercise*, subtitle=Characterizing irreducibility for embedded-analytic sets]
+\label{qu:irreducibility}
+Let $d<n$ be natural numbers and $A$ an embedded-analytic set of dimension $n-d$ in $n$-dimensional space. Denote by $\Reg A$ the set of regular points of $A$, as was introduced for analytic sets. Show the following.
+\begin{enumerate}
+\item The set $A$ is irreducible as an embedded-analytic set (i.e., $A$ is an irreducible embedded-analytic component) if and only if $\Reg A$ is a connected subset of $A$.\footnote{This proves that the irreducibility of an embedded-analytic set $A$ depends only on the set $A$ itself, and not on the surrounding set $\hat A$ in which it is defined. A priori $A$ might be an irreducible embedded-analytic component of a surrounding $\hat A_1$ and at the same time a reducible embedded-analytic set in some $\hat A_2$. Think about it.}
+\item\label{it:irreducibility-b} For all $p \in \Reg A$, the set $A$ is regular of codimension $d$ at $p$; that is, there exist no points $p$ such that $A$ is regular of codimension $d' \ne d$ at $p$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item By the definition of an embedded-analytic set there exist a domain $G$ in $\C^{n-d}$ and a $d$-tuple $(\omega_1,\dots,\omega_d)$ of pseudopolynomials without multiple factors over $G$ such that $A$ is the union of a finite number of irreducible embedded-analytic components of
+\[
+\hat A := \set{z \in \C^n \mid \forall i \in \set{1,\dots,d} \; \omega_i(\pi(z),z_{n-d+i}) = 0},
+\]
+where $\pi \colon \C^n \to \C^{n-d}$ denotes the projection to the first $n-d$ coordinates. Denoting $D$ the union discriminant set of the tuple of pseudopolynomials $(\omega_1,\dots,\omega_d)$ and setting $G^* := G \setminus D$, this means there exists a finite (nonempty) subset $\mathcal Z$ of the set of connected components of $\hat A^* := \hat A \cap \pi^{-1}(G^*)$ such that
+\[
+A = \bigcup \set{\overline Z \mid Z \in \mathcal Z} = \overline{\bigcup\mathcal Z} .
+\]
+The closures are taken in $\hat A$ or, since $\hat A$ is closed in $\pi^{-1}(G)$, equivalently in $\pi^{-1}(G)$.
+
+\begin{claim}
+\label{cl:irreducibility-1}
+We have
+\[
+\Reg A \cap \pi^{-1}(G^*) = A \cap \pi^{-1}(G^*) = \bigcup\mathcal Z.
+\]
+\end{claim}
+\begin{proof}
+It is clear that $\Reg A \cap \pi^{-1}(G^*) \subset A \cap \pi^{-1}(G^*)$. Since $Z$ is closed in $\hat A^*$ for all $Z \in \mathcal Z$ and since $\hat A^*$ is closed in $\pi^{-1}(G^*)$, we see that $\bigcup\mathcal Z$ is closed in $\pi^{-1}(G^*)$. Thus $\bigcup\mathcal Z = B \cap \pi^{-1}(G^*)$ for some closed subset $B$ of $\pi^{-1}(G)$. We deduce $A \subset B$, for $A$ is the closure of $\bigcup\mathcal Z$ in $\pi^{-1}(G)$. In consequence, $A \cap \pi^{-1}(G^*) \subset B \cap \pi^{-1}(G^*) = \bigcup\mathcal Z$. Conversely, the inclusion $\bigcup\mathcal Z \subset A \cap \pi^{-1}(G^*)$ is evident.
+
+Let $z \in \bigcup\mathcal Z$ be arbitrary. Then by \cref{qu:covering space}, \cref{it:covering space-a}, the set $\hat A^*$ is regular of codimension $d$ at $z$. Since $\bigcup\mathcal Z$ is open in $\hat A^*$ (as a union of connected components), $\bigcup\mathcal Z$ is regular of codimension $d$ at $z$, too. Thus $A$ is regular of codimension $d$ at $z$, for $\pi^{-1}(G^*)$ is open in $\C^n$ and $A \cap \pi^{-1}(G^*) = \bigcup\mathcal Z$. In turn we have $z \in \Reg A$.
+\end{proof}
+
+By the definition of regular points, the set $\Reg A$ is open in $A$. Thus there exists an open set $V \subset \pi^{-1}(G)$ such that $\Reg A = A \cap V$ (in fact one can take $V = \pi^{-1}(G) \setminus (A \setminus \Reg A)$). Now $\Reg A$ is a complex submanifold of $V$. We view $\Reg A$ itself as a complex manifold.\footnote{This was a “Subexample” in a series of examples following the definition of a complex manifold last semester (see III.1). Notice that as we have introduced only complex manifolds and submanifolds of a fixed dimension, one should first prove \cref{it:irreducibility-b} at this point---namely, that $\Reg A$ is an $(n-d)$-dimensional complex submanifold of $V$.}
+
+\begin{claim}
+The set $S := \Reg A \cap \pi^{-1}(D)$ is nowhere dense and analytic in $\Reg A$.
+\end{claim}
+\begin{proof}
+Since $\rest\pi V \colon V \to G$ is a holomorphic map, also $\rest\pi{\Reg A} \colon \Reg A \to G$ is a holomorphic map. So $S = (\rest\pi{\Reg A})^{-1}(D)$ is analytic in $\Reg A$, for $D$ is analytic in $G$.
+By means of \cref{cl:irreducibility-1} we have $\bigcup\mathcal Z = \Reg A \setminus S$. Since $\bigcup\mathcal Z$ is dense in $A$, it will be dense in $\Reg A$ too. As $S$ is closed in $\Reg A$, this proves that $S$ is nowhere dense in $\Reg A$.
+\end{proof}
+
+Assume $\Reg A$ connected now. Then $\Reg A \setminus S$ is connected according to the Riemann extension theorem.\footnote{More specifically, this was last semester's III.~Proposition 1.6.} As $\Reg A \setminus S = \bigcup\mathcal Z$ is a decomposition into open subsets, the set $\mathcal Z$ may contain at most one element. Thus, by definition, $A$ is an irreducible embedded-analytic component of $\hat A$. Conversely, when $A$ is an irreducible embedded-analytic component of $\hat A$, then $\Reg A$ is connected, for it contains $\bigcup\mathcal Z$ as a dense and connected subset.
+
+\begin{remark}
+A slight refinement of the above argument shows that
+\[
+\set{\overline Z \cap \Reg A \mid Z \in \mathcal Z}
+\]
+is the set of connected components of $\Reg A$. Still, the bar refers to taking the closure in $A$---note however that for $Z \in \mathcal Z$, the intersection $\overline Z \cap \Reg A$ is nothing but the closure of $Z$ in $\Reg A$. Furthermore, the assigment $Z \mapsto \overline Z \cap \Reg A$ defines a bijection between $\mathcal Z$ and the set of connected components of $\Reg A$. Thus, we see that the number of irreducible embedded-analytic components used to produce $A$ is invariant under a change of the ambient set $\hat A$ in which $A$ is defined.
+\end{remark}
+
+\item We have already seen in \cref{cl:irreducibility-1} that for all $p \in \Reg A \cap \pi^{-1}(G^*)$, the set $A$ is regular of codimension $d$ at $p$. So, let $p \in \Reg A \cap \pi^{-1}(D)$. Then there exists a natural number $d'$ (necessarily $\le n$) such that $A$ is regular of codimension $d'$ at $p$. By the definition of regularity at a point, there exists an open neighborhood $U$ of $p$ in $A$ such that $A$ is regular of codimension $d'$ at $q$ for all $q \in U$. This set $U$ is also a neighborhood of $p$ in $\Reg A$. Thus, since $\Reg A \cap \pi^{-1}(G^*)$ is dense in $\Reg A$, there exists a point $q \in U \cap \pi^{-1}(G^*)$; that is, $A$ is both regular of codimension $d'$ at $q$ and regular of codimension $d$ at $q$. From this we deduce $d = d'$.\footnote{Mind that this is not immediate from the definition! How would you prove it?} Hence $A$ is regular of codimension $d$ at $p$, too.
+\end{solenum}
+\end{solution}
+
+\begin{question}[name=Exercise*, subtitle=The topology of a disjoint union of two graphs]
+\label{qu:two graphs}
+Let $X$ and $Y$ be topological spaces, $f,g \colon X \to Y$ continuous maps. Assume that $Y$ is Hausdorff and that $f(x) \ne g(x)$ for all $x \in X$.
+\begin{enumerate}
+\item Show that the graph $\Gamma_f := \set{(x,y) \mid y = f(x)}$ of $f$ is open in the union $\Gamma_f \cup \Gamma_g = \set{(x,y) \mid y = f(x) \lor y = g(x)}$, where the latter receives the subspace topology of $X \times Y$.\label{it:two graphs-a}
+\item Prove or disprove: There exist open neighborhoods $U$ and $V$ of $\Gamma_f$ and $\Gamma_g$, respectively, such that $U \cap V = \emptyset$.
+\item Show by example that the assertion of \cref{it:two graphs-a} becomes false when you drop the Hausdorff assumption on $Y$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item We show that $U := (X \times Y) \setminus \Gamma_g$ is open in $X \times Y$. As a consequence, $\Gamma_f = (\Gamma_f \cup \Gamma_g) \cap U$ will be open in $\Gamma_f \cup \Gamma_g$. Note that for all $(x,y) \in \Gamma_f$, we have $(x,y) \notin \Gamma_g$, for otherwise we had $f(x) = g(x)$.
+
+\begin{proof}
+Let $(x,y) \in U$. Then $y \ne g(x)$. As $Y$ is Hausdorff, there exist open neighborhoods $W$ and $W'$ of $y$ and $g(x)$ in $Y$ respectively such that $W \cap W' = \emptyset$. Since $g \colon X \to Y$ is continuous, $V := g^{-1}(W')$ is an open neighborhood of $x$ in $X$. Thus, $V \times W$ is an open neighborhood of $(x,y)$ in $X \times Y$.
+
+Assume that $(x',y') \in (V \times W) \cap \Gamma_g$. Then $y' = g(x')$ and $g(x') \in W'$ by the definition of $V$. In turn, $y' \in W \cap W'$, a contradiction. We conclude that $V \times W \subset U$. Since $(x,y) \in U$ was arbitrary, we conclude further that $U$ is open in $X \times Y$.
+\end{proof}
+
+\item The assertion is true in fact when $Y$ is metric---that is, when there exists a metric $d$ on $Y$ whose associated topology is the topology of $Y$. Then you show that the set $U = \set{(x,y) \mid d(y,f(x)) < r(x)}$ is an open neighborhood of $\Gamma_f$ in $X \times Y$ for all continuous functions $r \colon X \to \R_{>0}$ \ldots, and likewise for $g$ in place of $f$. Taking $r$ to be given by $r(x) = \frac12 d(f(x),g(x))$, and observing that this $r$ is actually continuous, we produce $U$ and $V$ which are disjoint.
+
+For general Hausdorff spaces $Y$, the problem is open to discussion \ldots
+
+\item Take $X$ to be the real line (or any other nonempty topological space for that matter) and $Y = (\set{0,1},\set{\emptyset,\set1,\set{0,1}})$. Observe that $Y$ is a topological space. Moreover, let $f$ and $g$ be given by $f(x) = 0$ and $g(x) = 1$, respectively, for all $x \in X$. Then $f,g \colon X \to Y$ are continuous and $f(x) \ne g(x)$ holds for all $x$. The only open neighborhood of $\Gamma_f = X \times \set0$ in $X \times Y$, however, is $X \times Y$ itself, as can be shown easily. In particular, there exists no open set $U$ in $X \times Y$ such that $(\Gamma_f \cup \Gamma_g) \cap U = \Gamma_f$, for $\Gamma_g \ne \emptyset$.
+\end{solenum}
+\end{solution}
+
+\begin{question}[subtitle=A criterion for irreducibility]
+\label{qu:irred crit}
+Let $n$ be a natural number, $\Omega$ open in $\C^n$, and $A$ analytic in $\Omega$. Prove that $A$ is irreducible (i.e., $\Reg A$ is connected) if and only if for all analytic subsets $A_1$ and $A_2$ of $\Omega$ we have $A_1 \cup A_2 = A$ only if $A_1 = A$ or $A_2 = A$.
+\end{question}
+
+\begin{solution}
+Assume that for all analytic subsets $A_1$ and $A_2$ of $\Omega$ we have $A_1 \cup A_2 = A$ only if $A_1 = A$ or $A_2 = A$. When $\Reg A = \emptyset$, then $\Reg A$ is connected. So, assume that $\Reg A \ne \emptyset$. Then there exists a connected component $Z$ of $\Reg A$. According to the global decomposition theorem, both $A_1 := \overline Z$ and $A_2 := \overline{\Reg A \setminus Z}$ are analytic in $\Omega$ (closure taken in $A$ or in $\Omega$).\footnote{See the proof of I.~Theorem 2.7 in your lecture notes.} Moreover, $\Reg A$ is dense in $A$, whence we have $A_1 \cup A_2 = A$. Our assumption implies that $A_1 = A$ or $A_2 = A$. If $A_2 = A$, then $Z \cap A_2 = Z \ne \emptyset$, contradicting the global decomposition theorem. Thus $A_1 = A$. This implies that $Z$ lies dense in $\Reg A$. In particular, $\Reg A$ is connected.
+
+Now, conversely, assume that $\Reg A$ is connected. Let $A_1$ and $A_2$ be analytic in $\Omega$ such that $A_1 \cup A_2 = A$. Then, for $i = 1,2$, the set $A_i' := A_i \cap \Reg A$ is analytic in the complex manifold $\Reg A$. By virtue of the identity theorem for an analytic set in a connected complex manifold, $A_i'$ is nowhere dense in $\Reg A$ or $A_i' = \Reg A$.\footnote{See last semester's lecture.} Since $A_1 \cup A_2 = A$, we have $A_1' \cup A_2' = \Reg A$. If both $A_1' \ne \Reg A$ and $A_2' \ne \Reg A$, then $\Reg A$ would be the union of two proper, nowhere dense subsets---a contradiction (already topologically). Thus we have $A_1' = \Reg A$ or $A_2' = \Reg A$. In case $A_1' = \Reg A$, we deduce
+\[
+A = \overline{\Reg A} = \overline{A_1'} \subset A_1 \subset A,
+\]
+whence $A_1 = A$, using that $\Reg A$ lies dense in $A$. In case case $A_2' = \Reg A$, we deduce $A_2 = A$, Q.E.D.
+
+\begin{remark}
+Our solution uses several facts which have not been mentioned explicitly in the lecture, but which are implicit in the global decomposition theorem. Specifically, we have the following.
+\begin{enumerate}[label=(\arabic*)]
+\item When $\mathcal S$ is a subset of the set $\mathcal Z$ of connected components of $\Reg A$, then the closure of the union $\bigcup\mathcal S$ in $A$ is analytic in $\Omega$. Moreover, the latter closure is nothing but union of all $\overline S$, where $S \in \mathcal S$. In our argument, we employ this for $\mathcal S = \set Z$ and for $\mathcal S = \mathcal Z \setminus \set Z$.
+\item When $S$ and $T$ are connected components of $\Reg A$, then either $S = T$ or $S \cap \overline T = \emptyset$. As a consequence, when $\mathcal T$ is a subset of $\mathcal Z$ not containing $S$, then $S \cap \overline{\bigcup\mathcal T} = \emptyset$.
+\item $\Reg A$ is dense in $A$.
+\end{enumerate}
+\end{remark}
+\end{solution}
+
+\begin{question}[subtitle=The identity theorem for analytic sets (variations)]
+\label{qu:identity theorem var}
+Let $n$ be a natural number, $\Omega$ open in $\C^n$. Moreover, let $A$ be an irreducible analytic set in $\Omega$ and $B$ an arbitrary analytic set in $\Omega$. Prove the following.
+\begin{enumerate}
+\item \label{it:identity theorem var-a} When there exists a nonempty open subset $U$ of $A$ such that $U \subset B$, then $A \subset B$.
+\item When $A$ is not contained in $B$, then $A \cap B$ is nowhere dense in $A$.
+\item \label{it:identity theorem var-c} When $B$ (besides $A$) is irreducible in $\Omega$ and there exists an open subset $V$ of $\Omega$ such that $A \cap V = B \cap V \ne \emptyset$, then $A = B$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}
+\begin{solenum}
+\item Let $U$ be nonempty and open in $A$. Then, because $\Reg A$ is dense in $A$, the intersection $U' := U \cap \Reg A$ is nonempty (if $U'$ were empty, then $A = \overline{\Reg A} \subset A \setminus U$, contradicting the nonemptyness of $U$). Since $B$ is analytic in $\Omega$ and $\Reg A$ is a complex submanifold of some open subset of $\Omega$, we see that $B' := B \cap \Reg A$ is analytic in the complex manifold $\Reg A$. Thus if $U \subset B$, we deduce $U' \subset B'$, so that the identity theorem for analytic sets in connected complex manifolds implies $B' = \Reg A$. As a consequence, $A = \overline{\Reg A} \subset \overline{B'} \subset B$, which was to be demonstrated.
+
+\item Assume $A \not\subset B$. Observe that $A \cap B$ is closed in $A$. Assume that $z$ is an interior point of $A \cap B$ in $A$. Then there exists an open neighborhood $U$ of $z$ in $A$ such that $U \subset A \cap B$. In particular, $U$ is nonempty, open in $A$, and contained in $B$, whence \cref{it:identity theorem var-a} implies $A \subset B$; contradiction. Therefore, the interior of $A \cap B$ in $A$ is empty and, in turn, $A \cap B$ is nowhere dense in $A$, Q.E.D.
+
+\item Let $V$ be open in $\Omega$ such that $U := A \cap V = B \cap V \ne \emptyset$. Then $U$ is open in $A$, nonempty, and contained in $B$. By means of \cref{it:identity theorem var-a} we deduce $A \subset B$. When $B$ is irreducible in $\Omega$, too, we obtain $B \subset A$ by symmetry. Thus, $A = B$, which was to be demonstrated.
+\end{solenum}
+\end{solution}
+
+\begin{question}[subtitle=Irreducible components and subsets]
+\label{qu:irred comp subsets}
+Let $n$ be a natural number, $\Omega$ open in $\C^n$, and $A$ and $B$ analytic in $\Omega$ such that $A \subset B$. Prove the following.
+\begin{enumerate}
+\item\label{it:irred comp subsets-a} When $A$ is irreducible in $\Omega$, then there exists an irreducible component $B'$ of $B$ such that $A \subset B'$.
+\item When there is a number $k$ such that both $A$ and $B$ are pure-dimensional of dimension $k$, then there exists a set $\mathcal S$ of irreducible components of $B$ such that $A = \bigcup\mathcal S$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}
+\begin{solenum}
+\item Assume $A$ irreducible in $\Omega$. When $A = \emptyset$, the assertion follows noting that there exists an irreducible component $B'$ of $B$. Mind that when $B = \emptyset$, then the empty set must be declared a connected component of $\Reg B$. Otherwise $B$ possesses no irreducible component at all---and our assertion becomes false.
+%When $B = \emptyset$, the empty set itself must be declared an irreducible component of $B$. Otherwise the assertion becomes false. As an irreducible component of $B$ is, by definition, the closure in $B$ of a connected component of $\Reg B$, this question boils down to the question of whether the empty set is a connected component of the empty topological space. Defining connected components by means of an equivalence relation on points, the empty set cannot be a connected component. Defining connected components as maximal connected subsets, however, makes the empty set a connected component of the empty space.
+
+We suppose $A \ne \emptyset$ now. Then $\Reg A \ne \emptyset$ (given that $\Reg A$ is dense in $A$). So there exists an element $z$ in $\Reg A$. By the global decomposition theorem the set $\mathcal Z$ of irreducible components of $B$ is locally finite in $\Omega$. Therefore, there exists an open neighborhood $V$ of $z$ in $\Omega$ such that the set $\mathcal Z' := \set{Z \in \mathcal Z \mid Z \cap V \ne \emptyset}$ is finite and, at the same time, $U := A \cap V$ is a connected complex submanifold of $V$. We know that for all $Z \in \mathcal Z$, the intersection $Z \cap U = (Z \cap V) \cap U$ is analytic in the complex manifold $U$. Hence either $Z \cap U = U$ or $Z \cap U$ is nowhere dense in $U$.
+Since $A \subset B$, we deduce
+\[
+U = B \cap U = \bigcup\mathcal Z \cap U = \bigcup\mathcal Z' \cap U.
+\]
+So, as a finite union of nowhere dense sets is nowhere dense, there exists an element $B' \in \mathcal Z'$ such that $B' \cap U = U$---that is, such that $U \subset B'$. Seeing that $B'$ is analytic in $\Omega$, that $A$ is irreducible in $\Omega$ (by assumption), and that $U$ is nonempty and open in $A$, we infer $A \subset B'$ by virtue of \cref{qu:identity theorem var}, \cref{it:identity theorem var-a}, Q.E.D.
+
+\item Let $k \in \N_0$ be such that both $A$ and $B$ are pure-dimensional of dimension $k$.
+Define $\mathcal S$ to be the set of irreducible components of $A$ in $\Omega$. Then $\bigcup\mathcal S = A$ due to the global decomposition theorem. Moreover, in virtue of \cref{cl:irred comp subsets}, $\mathcal S$ is a subset of the set of irreducible components of $B$, which was to be demonstrated.
+
+\begin{claim}
+\label{cl:irred comp subsets}
+Every irreducible component of $A$ is an irreducible component of $B$.
+\end{claim}
+
+\begin{proof}
+Let $A'$ be an irreducible component of $A$. Then $A'$ is an irreducible analytic subset of $\Omega$ by virtue of the global decomposition theorem. According to \cref{it:irred comp subsets-a}, there exists an irreducible component $B'$ of $B$ such that $A' \subset B'$. As $A$ and $B$ are pure-dimensional of dimension $k$, we have $\dim A' = \dim B' = k$. Hence \cref{le:irred comp subsets} implies $A' = B'$. Therefore $A'$ is an irreducible component of $B$.
+\end{proof}
+%\begin{lemma}
+%When $C$ and $D$ are irreducible analytic and of dimension $k$ in $\Omega$, then $C \subset D$ implies $C = D$.
+%\end{lemma}
+
+\begin{lemma}
+\label{le:irred comp subsets}
+Let $C$ and $D$ be irreducible analytic in $\Omega$ such that $C \subset D \ne \emptyset$. Then $\dim C \le \dim D$, and equality holds if and only if $C = D$.
+\end{lemma}
+
+\begin{proof}
+We proceed by induction on the dimension of $D$. When $\dim D = 0$, then $D = \set z$ for an element $z \in \Omega$. Therefore, either $C = \emptyset$, whence $C \ne D$, and $\dim C = -\infty < \dim D$ or $C = D$ and $\dim C = 0 = \dim D$.\footnote{By our convention the dimension of the empty set is equal to $-\infty$, for we take our suprema in the extended real line $\overline\R = \R \cup \set{-\infty,+\infty} = \cint{-\infty,+\infty}$.} Now let $m \in \N_0$ be arbitrary, assume the assertion of the lemma holds in case $\dim D \le m$, and assume that $\dim D = m+1$. We use the following without proof.
+
+\begin{fact}
+The singular locus $S$ of $D$ is analytic in $\Omega$, and $\dim S < \dim D$.\footnote{This became available through the lecture only after the exercise was posed.}
+\end{fact}
+
+If $C \subset S$, then, according to \cref{it:irred comp subsets-a}, there exists an irreducible component $S'$ of $S$ such that $C \subset S'$. We know that $S'$ is irreducible analytic in $\Omega$ (global decomposition theorem) and $\dim S' \le \dim S \le m$; note that the dimension of $S$ is by definition the supremum of the dimensions of the irreducible components of $S$. Thus we infer $\dim C \le \dim S' < m+1 = \dim D$ from the induction hypothesis. Moreover, since $S$ is a proper subset of $D$ (in fact, $S$ is nowhere dense in $D$), we have $C \ne D$.
+
+Suppose $C \not\subset S$. Then there exists a point $z \in C \cap \Reg D$. Since $\Reg D$ is open in $D$ and the set of singular points of $C$ is nowhere dense in $C$, there exists a point $z' \in \Reg C \cap \Reg D$. At $z'$, we know that the dimension of $C$ cannot exceed the dimension of $D$.\footnote{This is not entirely obvious. Think about how you would prove it.} Moreover, the dimensions (or codimensions) of $C$ and $D$ at $z'$ are equal if and only if $C$ and $D$ agree in a neighborhood of $z'$; that is, if and only if we have $V \cap C = V \cap D$ for an open neighborhood $V$ of $z'$ in $\Omega$. In view of \cref{qu:identity theorem var}, \cref{it:identity theorem var-c} (or \cref{it:identity theorem var-a}), the latter happens if and only if $C = D$. Remarking that the dimension of $C$ (resp. $D$) is, by definition, equal to the dimension of $C$ (resp. $D$) at $z'$, we deduce $\dim C \le \dim D$ with equality holding if and only if $C = D$.
+\end{proof}
+\end{solenum}
+\end{solution}
+
+\begin{question}[name=Exercise*, subtitle=A characterization of irreducible components]
+\label{qu:irred comp char}
+Let $n \in \N$, let $\Omega$ be open in $\C^n$, and let $A$ be analytic in $\Omega$. Denote by $\mathcal I$ the set of irreducible analytic subsets of $\Omega$ which are contained in $A$. Show that the following are equivalent:
+\begin{enumerate}[label=\emph{\roman*}.]
+\item \label{it:irred comp char-1} $A'$ is a \emph{maximal element} of the partially ordered set $(\mathcal I,{\subset})$; that is, $A' \in \mathcal I$ and, for all $A'' \in \mathcal I$, whenever $A' \subset A''$, we have $A'' \subset A'$.
+\item \label{it:irred comp char-2} There exists a connected component $Z$ of $\Reg A$ such that $A' = \overline Z$, the closure being taken in $A$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}
+Assume \cref{it:irred comp char-1}. Then $A'$ is an irreducible analytic set in $\Omega$ and $A' \subset A$. Thus according to \cref{it:irred comp subsets-a} of \cref{qu:irred comp subsets} there exists an irreducible component $A''$ of $A$ such that $A' \subset A''$. By virtue of the global decomposition theorem, $A''$ itself is irreducible analytic in $\Omega$, whence $A'' \in \mathcal I$. The maximality of $A'$ yields $A' = A''$. Moreover, given that $A''$ is an irreducible component of $A$, we have $A'' = \overline Z$ for a connected component $Z$ of $\Reg A$. Thus we deduce \cref{it:irred comp char-2}.
+
+Conversely now, assume \cref{it:irred comp char-2}. Then $A'$ is irreducible analytic in $\Omega$ due to the global decomposition theorem. Hence, $A' \in \mathcal I$. Let $A'' \in \mathcal I$ be such that $A' \subset A''$. Observe that $Z$ is open in $A$ (“local connectedness”). Therefore $A'' \cap Z$ is open in $A''$. Moreover, we have $A'' \cap Z = Z \subset A'$, so that in case $Z$ is nonempty \cref{it:identity theorem var-a} of \cref{qu:identity theorem var} implies $A'' \subset A'$. On the other hand, if $Z$ is empty, then $\Reg A$ and, whence, $A$ are empty, so that $A'' = \emptyset \subset A'$. We conclude \cref{it:irred comp char-1}.
+\end{solution}
+%
+%\begin{question}[]
+%Let $n$ be a natural number, $\Omega$ open in $\C^n$, and $A$ analytic in $\Omega$. Let $z \in A$ and assume that $A$ is both regular of codimension $q$ at $z$ and regular of codimension $r$ at $z$. Show that $q=r$.
+%\end{question}
+
+\begin{question}[subtitle=On the local dimension of an analytic set]
+\label{qu:local dim}
+Let $n$ be a natural number, $\Omega$ open in $\C^n$, and $A$ analytic in $\Omega$. Let $z \in A$. Define $D = D_z(A,\Omega)$ to be the set of all natural numbers $k \in \N_0$ for which there exists an open neighborhood $U$ of $z$ in $\Omega$ and a $k$-tuple $(f_1,\dots,f_k)$ of holomorphic functions on $U$ such that
+\begin{equation}
+\label{eq:local dim}
+\Zero{f_1,\dots,f_k} \cap A = \set z.
+\end{equation}
+By convention, the zero set of the $0$-tuple of holomorphic functions on $U$ equals $U$.
+Moreover, we define the \emph{(local) dimension} of $A$ at $z$ in $\Omega$ by
+\[
+\dim_z(A,\Omega) := \inf D,
+\]
+where the infinum is taken in $\N_0 \cup \set\infty$. Show the following.
+\begin{enumerate}
+\item \label{it:local dim-a} We have $\dim_z(A,\Omega) \le n$. In particular, the set $D$ is nonempty.
+\item \label{it:local dim-b} When $\Omega'$ is open in $\Omega$ and containing $z$, then $\dim_z(A,\Omega) = \dim_z(A \cap \Omega',\Omega')$.
+\item When $\tilde\Omega$ is open in $\C^n$ (possibly different from $\Omega$) such that $A$ is analytic in $\tilde\Omega$, then $\dim_z(A,\Omega) = \dim_z(A,\tilde\Omega)$.\footnote{This means that the dimension of $A$ at $z$ in $\Omega$ is in fact independent of the ambient open set $\Omega \subset \C^n$ in which $A$ is analytic. Therefore, one usually speaks of the dimension of $A$ at $z$, dropping the reference to $\Omega$. One usually writes $\dim_zA$ in place of $\dim_z(A,\Omega)$.}
+\item When $\Omega_1$ is open in $\C^n$ and $\phi \colon \Omega \to \Omega_1$ is biholomorphic, then $\dim_z(A,\Omega) = \dim_{\phi(z)}(\phi(A),\Omega_1)$.
+\item When $B$ is analytic in $\Omega$ and $A \subset B$, then $\dim_z(A,\Omega) \le \dim_z(B,\Omega)$.
+\item \label{it:local dim-f} We have $\dim_z(A,\Omega) = 0$ if and only if $z$ is an isolated point of $A$ in $\Omega$. In particular, $\dim_z(\set z,\Omega) = 0$.
+\item \label{it:local dim-g} $\dim_0(\C^1,\C^1) = 1$.
+\item \label{it:local dim-h} $\dim_0(\C^2,\C^2) = 2$.
+\item \label{it:local dim-i} $\dim_0(\C^3,\C^3) = 3$.
+%\item When $A$ is pure-dimensional of dimension $d$, then $\dim_z(A,\Omega) = d$.
+%\item We have
+%\[
+%\dim_z(A,\Omega) = \sup\set{\dim A' \mid A' \in \mathcal C \land z \in A'},
+%\]
+%where $\mathcal C$ denotes the set of irreducible components of $A$ in $\Omega$ and $\dim A'$ refers to the (global) dimension of the nonempty, irreducible analytic subset $A'$ of $\Omega$, as defined in the lecture.
+\item \label{it:local dim-j} When $m \in \N_0$ is such that for all neighborhoods $V$ of $z$ in $\Omega$ there exists a point $w \in A \cap V$ at which $A$ is regular of dimension $m$ (i.e., regular of codimension $n-m$), then $m \le \dim_z(A,\Omega)$.
+
+\emph{Hint:} Proceed by induction on $m$. Moreover, think about reducing to the case where $A$ is irreducible analytic of dimension $m$ (or $m+1$ in the induction step). The embedding theorem of Remmert--Stein might help too.
+%\item There exists a neighborhood $U$ of $z$ in $\Omega$ such that $\dim_w(A,\Omega) \le \dim_z(A,\Omega)$ for all $w \in A \cap U$.
+\item When $A$ is regular of dimension $m$ at $z$ in $\Omega$, then $\dim_z(A,\Omega) = m$. In particular, $\dim_0(\C^n,\C^n) = n$, generalizing \cref{it:local dim-g,it:local dim-h,it:local dim-i}.
+
+\emph{Hint:} Apply \cref{it:local dim-j}.
+%\item When $z$ is an interior point of $A$ in $\Omega$, then $\dim_z(A,\Omega) = n$.\footnote{In particular, $\dim_z(\Omega,\Omega) = n$.}
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item We show that $n \in D$. The claim (i.e., $\inf D \le n$) then follows. For the proof, define an $n$-tuple $f = (f_1,\dots,f_n)$ of functions by $f_i(w) = w_i - z_i$ for all $w \in \Omega$ and all $i \in \set{1,\dots,n}$. Then, clearly, $f$ is an $n$-tuple of holomorphic functions on $\Omega$. Moreover, $\Omega$ is an open neighborhood of $z$ in $\Omega$ and
+\[
+\Zero{f_1,\dots,f_n} \cap A = \set z \cap A = \set z,
+\]
+so that $n \in D$, Q.E.D.
+
+\item First of all notice that $D_z(A \cap \Omega',\Omega') \subset D_z(A,\Omega)$, because for all open neighborhoods $U$ of $z$ in $\Omega'$ and all $k$-tuples $(f_1,\dots,f_k)$ of holomorphic functions on $U$, where $k \in \N_0$, we know that $U$ is an open neighborhood of $z$ in $\Omega$ and
+\[
+\Zero{f_1,\dots,f_k} \cap A = \Zero{f_1,\dots,f_k} \cap (A \cap \Omega').
+\]
+Conversely, assume $k \in D$. Then there is an open neighborhood $U$ of $z$ in $\Omega$ and a $k$-tuple $(f_1,\dots,f_k)$ of holomorphic functions on $U$ such that \cref{eq:local dim} holds. Thus $U' := U \cap \Omega'$ is an open neighborhood of $z$ in $\Omega'$ and $(\rest{f_1}{U'}, \dots, \rest{f_k}{U'})$ is a $k$-tuple of holomorphic functions on $U'$ such that
+\[
+\Zero{\rest{f_1}{U'}, \dots, \rest{f_k}{U'}} \cap (A \cap \Omega') = (\Zero{f_1,\dots,f_k} \cap U') \cap (A \cap \Omega') = \set z \cap U' = \set z,
+\]
+whence $k \in D_z(A \cap \Omega',\Omega')$. We conclude that $D = D_z(A \cap \Omega',\Omega')$ and thus that $\inf D = \inf D_z(A \cap \Omega',\Omega')$, Q.E.D.
+
+\item Since $A$ is analytic in $\tilde\Omega$ and $z \in A$, we know that $z \in \tilde\Omega$. Therefore, $\Omega' := \Omega \cap \tilde\Omega$ contains $z$. Moreover, $\Omega'$ is both open in $\Omega$ and open in $\tilde\Omega$. Thus a twofold application of \cref{it:local dim-b} yields
+\[
+\dim_z(A,\Omega) = \dim_z(A \cap \Omega',\Omega') = \dim_z(A,\tilde\Omega),
+\]
+which was to be demonstrated.
+
+\item Let $k \in D_{\phi(z)}(\phi(A),\Omega_1)$. Then there exists an open neighborhood $V$ of $w := \phi(z)$ in $\Omega_1$ and a $k$-tuple $(g_1,\dots,g_k)$ of holomorphic functions on $V$ such that $\Zero{g_1,\dots,g_k} \cap \phi(A) = \set w$. Thus $U := \phi^{-1}(V)$ is an open neighborhood of $z$ in $\Omega$ and $(f_1,\dots,f_k)$ given by $f_i = g_i \circ \phi$ is a $k$-tuple of holomorphic functions on $U$. Moreover,
+\begin{align*}
+\Zero{f_1,\dots,f_k} \cap A &= \phi^{-1}(\Zero{g_1,\dots,g_k}) \cap A \\ &= \phi^{-1}(\Zero{g_1,\dots,g_k} \cap \phi(A)) = \phi^{-1}(\set w) = \set z,
+\end{align*}
+taking into account that $\phi$ is injective. We conclude that $k \in D$.
+
+Applying the same argument to the inverse map $\psi \colon \Omega_1 \to \Omega$ of $\phi$ and noting that $\psi(w) = z$ and $\psi(\phi(A)) = A$, we see that $k \in D$ implies $k \in D_w(\phi(A),\Omega_1)$. In consequence, $D = D_w(\phi(A),\Omega_1)$ and $\inf D = \inf D_w(\phi(A),\Omega_1)$, which was to be demonstrated.
+
+\item Let $k \in D_z(B,\Omega)$. Then there exists an open neighborhood $U$ of $z$ in $\Omega$ and a $k$-tuple $(f_1,\dots,f_k)$ of holomorphic functions on $U$ such that $\Zero{f_1,\dots,f_k} \cap B = \set z$. In consequence,
+\[
+\Zero{f_1,\dots,f_k} \cap A = (\Zero{f_1,\dots,f_k} \cap B) \cap A = \set z \cap A = \set z,
+\]
+so that $k \in D$. We conclude $D_z(B,\Omega) \subset D$. Thus any lower bound of $D$ is also a lower bound of $D_z(B,\Omega)$. So, $\inf D \le \inf D_z(B,\Omega)$, which was to be demonstrated.
+
+\item Evidently, $\dim_z(A,\Omega) = 0$ if and only if $0 \in D$. By the definition of $D$ we have $0 \in D$ if and only if there exists an open neighborhood $U$ of $z$ in $\Omega$ and a $0$-tuple $e$ of holomorphic functions on $U$ such that $\set z = \Zero e \cap A = U \cap A$. The latter is equivalent to saying there exists an open neighborhood $U$ of $z$ in $\Omega$ such that $\set z = U \cap A$, simply because for any $U$ open in $\Omega$ a (unique) $0$-tuple of holomorphic functions on $U$ exists.
+
+The special case follows noting that first, $\set z$ is analytic in $\Omega$ (why?) and second, $z$ is an isolated point of $\set z$ in $\Omega$ for $\Omega$ itself is an open neighborhood of $z$ in $\Omega$ such that $\set z \cap \Omega = \set z$, Q.E.D.
+%When $z$ is an isolated point of $A$ in $\Omega$, there exists an open neighborhood $U$ of $z$ in $\Omega$ such that $U \cap A = \set z$. Taking $e$ to be the (unique) $0$-tuple of holomorphic functions on $U$, we have $\Zero e = U$ so that $\Zero e \cap A = \set z$. Thus $0 \in D$. This means $\inf D \le 0$, whence $\inf D = 0$.
+
+\item Applying \cref{it:local dim-a} for $n=1$, $\Omega = \C^1$, and $A = \C^1$ (note that $\C^1$ is both analytic and open in $\C^1)$, we deduce $0 \le \dim_0(\C^1,\C^1) \le 1$. If we had $\dim_0(\C^1,\C^1) = 0$, \cref{it:local dim-f} would imply that $0$ is an isolated point of $\C^1$ in $\C^1$; that is, we would have $\set0 = U \cap \C^1 = U$ for some open neighborhood $U$ of $0$ in $\C^1$---clearly a contradiction. Hence, $\dim_0(\C^1,\C^1) = 1$.
+
+\item Just like in the previous item, we conclude first that $0 \le \dim_0(\C^2,\C^2) \le 2$. Then we deduce $0 \notin D_0(\C^2,\C^2)$, for $0$ is not an isolated point of $\C^2$ in $\C^2$. Assume $1 \in D_0(\C^2,\C^2)$. Then there exists an open neighborhood $U$ of $0$ in $\C^2$ as well as a holomorphic function $f$ on $U$ such that $\set0 = \Zero f \cap \C^2 = \Zero f$. This, however, contradicts \hl{Hartogs's Kugelsatz}, by which the function $z \mapsto 1/f(z)$, $z \in U \setminus \set 0$, possesses a holomorphic continuation to all of $U$.\footnote{See last semester's exercises and lecture.} Therefore, $\dim_0(\C^2,\C^2) = 2$.
+
+\begin{remark}
+\label{re:local dim-1}
+Suppose that $U$ is an open neighborhood of $0$ in $\C^2$ and $f \in \O(U)$ such that $\Zero f = \set 0$, just like above. Then one can use the Weierstraß preparation theorem instead of the Kugelsatz in order to derive a contradiction. Indeed, since $\Zero f = \set 0$, the function $f$, or rather its power series expansion, is $z_2$-regular of order $s>0$ at $0$. Therefore, by virtue of the Weierstraß \hl{preparation theorem}, there exists a domain $G$ in $\C$ containing $0$ and a pseudopolynomial (in fact, a Weierstraß polynomial) $\omega$ of degree $s$ over $G$ such that $\Zero f \cap V = \Zero\omega \cap V$ for an open neighborhood $V$ of $0$ in $\C^2$. By \cref{qu:weierstrass map}, the Weierstraß map $\pi$ from $\Zero\omega$ to $G$ (i.e., the restriction of the projection $\C^2 \to \C$ to the first component) is open. In particular, $\pi(\Zero\omega \cap V) = \pi(\set0) = \set0$ should be open in $G$---a contradiction.
+
+You do not have to employ the openness of the Weierstraß map at the end. In somewhat more elementary terms you can argue as follows. In $G$ there exists a sequence $(x_n)$ of points different from $0$ converging to $0$ (e.g., $x_n = \frac1n$). By the \hl{continuity of roots} (see \cref{qu:continuity of roots}) there exists a sequence $(u_n)$ of complex numbers such that $\omega(x_n,u_n) = 0$ for all $n$ and $\lim(u_n) = 0$. Specifically, there exists a natural number $m$ such that $(x_m,u_m) \in \Zero\omega \cap V = \set 0$. Since $x_m \ne 0$, this gives a contradiction.
+\end{remark}
+
+\item By \cref{it:local dim-a}, $\dim_0(\C^3,\C^3) \le 3$. Let $U$ be an open neighborhood of $0$ in $\C^3$, $k \in \N_0$, and $(f_1,\dots,f_k)$ a $k$-tuple of holomorphic functions of $U$ such that $\set 0 = \Zero{f_1,\dots,f_k} \cap \C^3 = \Zero{f_1,\dots,f_k}$. Then with $\phi \colon \C^2 \to \C^3$ given by $\phi(w) = (w,0)$, the set $\phi^{-1}(U)$ is an open neighborhood of $0$ in $\C^2$ and $(f_1 \circ \phi,\dots,f_k\circ \phi)$ is a $k$-tuple of holomorphic functions on $\phi^{-1}(U)$ whose zero set is precisely $\phi^{-1}(\Zero{f_1,\dots,f_k}) = \phi^{-1}(\set 0) = \set 0$. Thus $k \in D_0(\C^2,\C^2)$ and we infer $2 \le k$ from \cref{it:local dim-h}.
+
+Assume $k=2$. We know there exists an index $i \in \set{1,2}$ and $s \in \N$ such that $f_i$ is $z_3$-regular of order $s$ at $0$; otherwise both $f_1(0,\lambda)$ and $f_2(0,\lambda)$ would vanish for $\lambda$ in a neighborhood of $0$ in $\C$, whence $\Zero{f_1,f_2}$ would contain an element different from $0 \in \C^3$ (compare \cref{re:local dim-1}). Thus by virtue of the Weierstraß \hl{preparation theorem}, there exist a domain $G$ in $\C^2$ containing $0$, a Weierstraß polynomial $\omega$ of order $s$ over $G$, and an open neighborhood $V$ of $0$ in $\C^3$ such that $\Zero{f_i} \cap V = \Zero\omega \cap V$. We may assume that $\omega$ is without multiple factors.\footnote{Why? What is the rigorous argument?} By virtue of \cref{qu:weierstrass map}, \cref{it:weierstrass map-b}, there exists a connected open neighborhood $\tilde G$ of $0$ in $G$ such that
+\[
+\Zero{\tilde\omega} = \Zero\omega \cap \pi^{-1}(\tilde G) \subset U \cap V,
+\]
+where $\pi \colon \C^3 \to \C^2$ denotes the projection to the first two components and $\tilde\omega$ denotes the restriction of $\omega$ to $\tilde G$ in the sense of pseudopolynomials. Observe that $\tilde\omega$ is without multiple factors as $\omega$ is. Denote $j$ the unique element of $\set{1,2} \setminus \set i$. Then $f_j$ is defined on a neighborhood of $A := \Zero{\tilde\omega}$---namely, on $U$. Moreover,
+\[
+\set 0 \subset N := \Zero{\tilde\omega,f_j} \subset \Zero{\omega,f_j} \cap V \subset \Zero{f_i,f_j} = \Zero{f_1,f_2} = \set 0,
+\]
+so that $N = \set 0$ is certainly nowhere dense in $A$ (the point $0$ is not isolated in $A$, otherwise $0$ would be isolated in $\Zero{f_i}$, which we have already excluded above). In other words, $f_j$ does not vanish identically on any neighborhood of a point of $A$. Therefore the \hl{projection theorem} established in the lecture implies the existence of a holomorphic function $\underline f$ on $\tilde G$ such that $\pi(N) = \Zero{\underline f}$. Since $\pi(N) = \pi(\set 0) = \set 0 \subset \C^2$, we deduce $\dim_0(\C^2,\C^2) \le 1$, in contradiction to \cref{it:local dim-h}. We conclude that $k \ne 2$. Hence $3 \le k$ and thus $3 \le \dim_0(\C^3,\C^3)$, Q.E.D.
+
+\item We use an induction on $m$. When $m=0$, the assertion is trivial, because $0 \le \dim_z(A,\Omega)$ holds no matter what. Let $m \in \N_0$ be arbitrary now and suppose the given assertion holds. Moreover, assume that for all neighborhoods $V$ of $z$ in $\Omega$ there exists a point $w \in A \cap V$ such that $A$ is regular of dimension $m+1$ (i.e., regular of codimension $n-(m+1) = n-m-1$) at $w$. We would like to prove that $m+1 \le \dim_z(A,\Omega)$. For that matter let $k \in D_z(A,\Omega)$; that is, $k \in \N_0$ and there exists an open neighborhood $U$ of $z$ in $\Omega$ and a $k$-tuple $(f_1,\dots,f_k)$ of holomorphic functions on $U$ such that \cref{eq:local dim} holds. We know that $A \cap U$ is analytic in $U$. According to the \hl{global decomposition theorem} there exists a neighborhood $V$ of $z$ in $U$ such that for all irreducible components $A'$ of $A \cap U$ in $U$ we have $A' \cap V \ne \emptyset$ only if $z \in A'$.\footnote{Why is that? Give a detailed proof.} Our assumptions imply that there exists a point $w$ in $A \cap V$ such that $A$, whence $A \cap U$, is regular of dimension $m+1$ at $w$. The point $w$ lies in a (unique) irreducible component $A'$ of $A \cap U$; in fact, $A'$ is the closure in $A \cap U$ of the connected component of $\Reg{A \cap U}$ containing $w$. Since $w \in A' \cap V$,  we deduce $z \in A'$. Now $A'$ itself is irreducible analytic of dimension $m+1$ in $U$ and
+\[
+\Zero{f_1,\dots,f_k} \cap A' = \set z.
+\]
+
+By the \hl{discussion in the lecture}, there exists an invertible affine transformation $\phi$ of $\C^n$ (a linear automorphism of $\C^n$ followed by the translation $w \mapsto w+z$) such that $\phi(0) = z$ and such that $0$ is an isolated point of $M \cap \set{z \in \C^n \mid z_1 = \dots = z_{m+1} = 0}$ in $\C^n$, where $M := \phi^{-1}(A')$.\footnote{This fact has not been stated or proven explicitly in the lecture, but it is implicit in the discussion preceding the theorem on the intersection of an arbitrary family of analytic sets.} Note that for one, $M$ is irreducible analytic of dimension $m+1$ in the open subset $\phi^{-1}(U)$ of $\C^n$. For another, $(g_1, \dots, g_k)$, with $g_i := f_i \circ \phi$ for all $i$, is a $k$-tuple of holomorphic functions on $\phi^{-1}(U)$ such that
+\[
+\Zero{g_1,\dots,g_k} \cap M = \phi^{-1}(\Zero{f_1,\dots,f_k} \cap A') = \set 0.
+\]
+By the \hl{embedding theorem of Remmert and Stein} there exists a polycylinder $P$ in $\C^{m+1}$ centered at the origin such that $M \cap \pi^{-1}(P)$ is an embedded-analytic set of dimension $m+1$ over $P$. Here, $\pi \colon \C^n \to \C^{m+1}$ denotes the projection to the first $m+1$ components. Observe that we have used the fact that the set of regular points of dimension $m+1$ of $M$ in $\phi^{-1}(U)$ is just the set $\Reg M$, which lies dense in $M$. Next, observe that there exists an index $i \in \set{1,\dots,k}$ such that $g_i$ does not vanish identically on any nonempty open subset of $M \cap \pi^{-1}(P)$. Otherwise, for all $i$, the function $g_i$ would vanish identically on a nonempty open subset of $\Reg M$, for $\Reg M$ is dense in $M$, and in turn $g_i$ would vanish on all of $M$ by virtue of the \hl{identity theorem} for holomorphic functions, taking into account that $\Reg M$ is a connected complex submanifold (of dimension $m+1$) of $\phi^{-1}(U) \setminus (M \setminus \Reg M)$. Then, however, we would have
+\[
+\set 0 = \Zero{g_1,\dots,g_k} \cap M = M,
+\]
+which clearly contradicts the fact that $M$ is irreducible analytic of dimension $m+1 \ge 1$. Define $N := \Zero{g_i} \cap (M \cap \pi^{-1}(P))$. Then we are in a “standard situation” of the lecture. The theorem on the \hl{existence of unbranched points} (in that situation) implies that for all neighborhoods $W$ of $0$ in $\pi^{-1}(P)$ there exists an unbranched point $w$ of $N$ which lies in $W$. In particular, $N$ is regular of dimension $(m+1)+1 = m$ at $w$. Therefore, by means of the induction hypothesis (applied to $N$, $\pi^{-1}(P)$, and $0$ in place of $A$, $\Omega$, and $z$) we infer that $m \le \dim_0(N,\pi^{-1}(P))$. In particular, since
+\[
+\set 0 \subset \Zero{\rest{g_j}{\pi^{-1}(P)} \mid j \in \set{1,\dots,k} \setminus \set i} \cap N \subset \Zero{g_1,\dots,g_k} \cap M = \set 0,
+\]
+we infer that $m \le k-1$, or $m+1 \le k$, which was to be demonstrated.
+
+\item Assume that $A$ is regular of dimension $m$ at $z$ in $\Omega$. Then, in particular, $m \in \N_0$ and, for all neighborhoods $V$ of $z$ in $\Omega$, there exists a point $w \in A \cap V$---namely, $z$ itself---such that $A$ is regular of dimension $m$ at $w$. Thus \cref{it:local dim-j} implies $m \le \dim_z(A,\Omega)$. Conversely, the \hl{implicit function theorem} implies the existence of a subset $I \subset \set{1,\dots,n}$ of cardinality $m$ such that, for an open neighborhood $U$ of $z$ in $\Omega$, the set $A \cap U$ is the graph of a holomorphic function from the variables in $I$ to the  complementary variables in $\set{1,\dots,n} \setminus I$. In particular, the intersection of $A \cap U$ with the $(n-m)$-plane $\set{w \in \C^n \mid (\forall i \in I) \; w_i = z_i}$ in $\C^n$ contains only the point $z$. In other words, defining, for $i \in I$, functions $f_i$ on $U$ by $f_i(w) = w_i - z_i$, we obtain an $I$-tuple $(f_i)_{i \in I}$ of holomorphic functions on $U$ such that $\Zero{f_i \mid i \in I} \cap A = \set z$. Therefore $m \in D_z(A,\Omega)$ and $\dim_z(A,\Omega) \le m$, which was to be demonstrated.
+
+Since $\C^n$ is evidently regular of dimension $n$ (i.e., codimension $n-n = 0$) at $0$ in $\C^n$, we obtain $\dim_0(\C^n,\C^n) = n$.
+\end{solenum}
+\end{solution}
+
+\begin{question}[subtitle=Trivial vector bundles and global frames]
+\label{qu:trivial bundle}
+Let $X$ be a complex manifold, $V$ a holomorphic vector bundle over $X$, and $r \in \N$. Show that $V$ is \emph{trivial} of rank $r$---that is, $V$ is isomorphic, in the sense of vector bundles over $X$, to the trivial holomorphic vector bundle of rank $r$ over $X$---if and only if there exists an $r$-tuple $(s_1,\dots,s_r)$ of elements of $\Gamma(X,V)$ such that, for all $x \in X$, the tuple $(s_1(x),\dots,s_r(x))$ is a basis for the complex vector space $V_x$.
+\end{question}
+
+\begin{solution}%[print]
+Denote $W$ the \hl{trivial holomorphic vector bundle} of rank $r$ over $X$. Recall that $W$ consists of the complex manifold $X \times \C^r$, the projection $\pr1 \colon X \times \C^r \to X$, the open cover $U = (U_0)$ given by $U_0 = X$, the identity map $\phi_0 \colon \pr1^{-1}(U_0) = X \times \C^r \to X \times \C^r$, and the constant map $g_{00} \colon U_0 \cap U_0 = X \to \GL(r,\C)$ with value the $r\times r$ identity matrix.
+
+Assume that $V$ is trivial of rank $r$. Then, by definition, there exists a \hl{vector bundle isomorphism} $\eta$ between $V$ and $W$. Denote by $(e_1,\dots,e_r)$ the standard basis of $\C^r$ and define $(t_1,\dots,t_r)$ to be the $r$-tuple of functions on $X$ given by $t_\nu(x) = (x,e_\nu)$ for all $\nu \in \set{1,\dots,r}$ and all $x \in X$. Then, evidently, for all $\nu \in \set{1,\dots,r}$ we have $t_\nu \in \Gamma(X,W)$.\footnote{Why exactly is $t_\nu$ a holomorphic map from $X$ to $X \times \C^r$?} Moreover, for all $\nu$ and all $x \in X$, the tuple $(t_1(x),\dots,t_r(x))$ constitutes an ordered basis for the complex vector space $W_x = \set x \times \C^r$, which is isomorphic to the complex vector space $\C^r$ by virtue of the projection to the second factor.
+Now define $s = (s_1,\dots,s_r)$ to be the $r$-tuple given by $s_\nu = \eta^{-1} \circ t_\nu$ for all $\nu \in \set{1,\dots,r}$. Then the tuple $s$ has the desired properties. Explicitly, for all $\nu$, in the first place, $s_\nu$ is a holomorphic map from $X$ to $V$ since $t_\nu \colon X \to W = X \times \C^r$ is holomorphic and $\eta^{-1} \colon W \to V$ is holomorphic ($\eta^{-1}$ is a \hl{vector bundle homomorphism}). In the second place, we have
+\[
+\pi \circ s_\nu = (\pi \circ \eta^{-1}) \circ t_\nu = \pr1 \circ t_\nu = \id X,
+\]
+where $\pi$ denotes the bundle projection of $V$,
+for $\eta^{-1}$ is “fiber preserving” between $W$ and $V$. Thirdly and lastly, for all $x \in X$, the tuple $(s_1(x),\dots,s_r(x))$ constitutes an ordered basis for $V_x$ since $\eta^{-1}$ restricts to an isomorphism of complex vector spaces between $W_x$ and $V_x$.
+
+Conversely, assume there exists an $r$-tuple $s = (s_1,\dots,s_r)$ of elements of $\Gamma(X,V)$ such that $(s_1(x),\dots,s_r(x))$ is an ordered basis of $V_x$ for all $x \in X$. Then there exists a unique map $\lambda \colon V \to \C^r$ such that, for all $v \in V$, we have
+\[
+v = \sum_{\nu = 1}^r \lambda(v)_\nu \cdot s_\nu(x)
+\]
+in the vector space $V_x$, where $x = \pi(v)$ (note that $v \in \pi^{-1}(\set x) = V_x$). As a consequence, there exists a unique map $\eta := (\pi,\lambda) \colon V \to X \times \C^r$ such that $\eta(v) = (\pi(v),\lambda(v))$ for all $v \in V$. I contend that $\eta$ is a vector bundle isomorphism between $V$ and $W$.
+To begin with, observe that $\eta \colon V \to W$ is fiber preserving---that is, $\pr1 \circ \eta = \pi$. Second of all, notice that for all $x \in X$, the induced map $\eta_x \colon V_x \to W_x = \set x \times \C^r$ (i.e., the restriction of $\eta$ to $V_x$) is a complex linear map taking the basis $s$ to the standard basis $((x,e_1),\dots,(x,e_r))$ of $W_x$. Hence $\eta_x$ is a linear isomorphism between $V_x$ and $W_x$. In consequence, $\eta$ is a bijection between $V$ and $W$ and the inverse map $\eta^{-1} \colon W \to V$ of $\eta$ is fiber preserving and induces a linear isomorphism $(\eta^{-1})_x \colon W_x \to V_x$ for all $x \in X$---namely, $(\eta^{-1})_x = (\eta_x)^{-1}$. It remains to show that both $\eta \colon V \to W$ and $\eta^{-1} \colon W \to V$ are holomorphic maps. For that matter, denote by $U = (U_i)_{i \in I}$ and $\phi = (\phi_i)_{i \in I}$ the indexed \hl{open cover} and the family of \hl{local trivializations} associated to $V$, respectively. Let $i \in I$ be arbitrary. Then $\phi_i \colon \pi^{-1}(U_i) \to U_i \times \C^r$ is a biholomorphism. In particular, for all $\nu \in \set{1,\dots,r}$, the map
+\[
+(\pr2 \circ \phi_i) \circ \rest{s_\nu}{U_i} \colon U_i \to \pi^{-1}(U_i) \to U_i \times \C^r \to \C^r
+\]
+is holomorphic. So there exists a unique holomorphic map $A \colon U_i \to \C^{r \times r}$ such that, for all $x \in U_i$ and all $\nu$, we have
+\[
+A(x)e_\nu = (\pr2 \circ \phi_i)(s_\nu(x)).
+\]
+Since the map $\pr2 \circ \phi_i$ restricts to a linear isomorphism between $V_x$ and $\C^r$, we see that the columns of $A(x)$ form a basis of $\C^r$, whence $A(x) \in \GL(r,\C)$, for all $x \in X$.
+Taking into account that the maps $\GL(r,\C) \to \GL(r,\C)$ and $\C^{r \times r} \times \C^r \to \C^r$ given by $B \mapsto B^{-1}$ and $(B,w) \mapsto Bw$, respectively, are holomorphic,\footnote{Can you prove this?} we deduce that
+\[
+\Phi \colon U_i \times \C^r \to U_i \times \C^r, \quad \Phi(x,p) = (x,A(x)^{-1}p),
+\]
+is a holomorphic map. In fact, $\Phi$ is a biholomorphism with inverse map $\Psi$ given by $\Psi(x,q) = (x,A(x)q)$.
+When $v \in \pi^{-1}(U_i)$ and $x := \pi(v)$, we obtain
+\begin{align*}
+A(x)\lambda(v) &= \sum_{\nu=1}^r \lambda(v)_\nu \cdot A(x)e_\nu \\
+&= \sum_{\nu=1}^r \lambda(v)_\nu \cdot (\pr2 \circ \phi_i)(s_\nu(x)) \\
+&= (\pr2 \circ \phi_i)\paren*{\sum_{\nu=1}^r \lambda(v)_\nu \cdot s_\nu(x)} = (\pr2 \circ \phi_i)(v)
+\end{align*}
+using the linearity of $\rest{\pr2 \circ \phi_i}{V_x} \colon V_x \to \C^r$ and, eventually, the defining property of $\lambda$. Therefore
+\[
+\lambda(v) = A(\pi(v))^{-1}(\pr2 \circ \phi_i)(v)
+\]
+and
+\[
+\eta(v) = (\pi(v),\lambda(v)) = \Phi(\pi(v),(\pr2 \circ \phi_i)(v)) = \Phi(\phi_i(v)),
+\]
+so that the restriction of $\eta$ to $\pi^{-1}(U_i)$ equals $\Phi \circ \phi_i$, which is a holomorphic map from $\pi^{-1}(U_i)$ to $U_i \times \C^r$. Similarly, the restriction of $\eta^{-1}$ to $U_i \times \C^r$ equals $\phi_i^{-1} \circ \Psi$, which is a holomorphic map from $U_i \times \C^r$ to $\pi^{-1}(U_i)$. Since $U$ is an open cover of $X$, whence $(\pi^{-1}(U_i))_{i \in I}$ an open cover of $V$ and $(U_i \times \C^r)_{i \in I}$ an open cover of $W$, we conclude that both $\eta$ and $\eta^{-1}$ are holomorphic maps, Q.E.D.
+\end{solution}
+
+\begin{question}[subtitle=Constructions with $1$-cocycles]
+\label{qu:1-cocycles}
+Let $X$ be a complex manifold, $G$ a complex Lie group, $U = (U_i)_{i \in I}$ an indexed open cover of $X$. We say that $c$ is a \emph{holomorphic $1$-cocycle} of $U$ on $X$ with values in $G$ when $c$ is a family indexed by $I \times I$ such that, for all $\iota,\kappa \in I$, the component $c_{\iota\kappa} := c_{(\iota,\kappa)}$ of $c$ is a holomorphic map from $U_\iota \cap U_\kappa$ (with respect to $X$) to $G$ and we have
+\begin{equation}
+\label{eq:1-cocycles}
+c_{\iota\kappa}(x) \cdot c_{\kappa\lambda}(x) = c_{\iota\lambda}(x)
+\end{equation}
+for all $\iota,\kappa,\lambda \in I$ and all $x \in U_\iota \cap U_\kappa \cap U_\lambda$, where the dot signifies the multiplication in $G$.
+
+Let $r$ be natural number, $V$ a holomorphic vector bundle of rank $r$ over $X$ with associated open cover $U$ and system of transition functions $g$. Show:
+\begin{enumerate}
+\item \label{it:1-cocycles-a} $g$ is a holomorphic $1$-cocycle of $U$ on $X$ with values in $\GL(r,\C)$.
+\item \label{it:1-cocycles-b} The $I \times I$ indexed family $g'$ given by $g'_{\iota\kappa} = g_{\kappa\iota}^\top$ for all $\iota,\kappa \in I$, where the matrix transpose is applied pointwise, is a holomorphic $1$-cocycle of $U$ on $X$ with values in $\GL(r,\C)$.
+
+In consequence, as pointed out in the lecture, a holomorphic vector bundle $V'$ of rank $r$ over $X$ may be glued out of $g'$. Describe this $V'$, which is called the \emph{dual bundle} of $V$ over $X$, explicitly!
+\item When $W$ is a holomorphic vector bundle of rank $1$ over $X$ with associated open cover $U$ and system of transition functions $h$, and $t$ is the $I \times I$ indexed family such that, for all $\iota,\kappa \in I$, the component $t_{\iota\kappa}$ of $t$ is the function on $U_\iota \cap U_\kappa$ given by
+\[
+t_{\iota\kappa}(x) = g_{\iota\kappa}(x) \otimes h_{\iota\kappa}(x)
+\]
+for all $x \in U_\iota \cap U_\kappa$, then $t$ is a holomorphic $1$-cocycle of $U$ on $X$ with values in $\GL(r,\C)$.\footnote{When $A \in \C^{r \times r}$ and $B \in \C^{1\times 1}$, then $A \otimes B$ is, by definition, the $r\times r$ matrix such that $(A \otimes B)_{ij} = A_{ij}B_{11}$ holds for all $i,j \in \set{1,\dots,r}$. This is a special case of the so-called \emph{Kronecker product} of two matrices.}
+
+Just as in \cref{it:1-cocycles-b}, the family $t$ gives rise to a holomorphic vector bundle $T$ of rank $r$ over $X$. This $T$ is called the \emph{tensor product (bundle)} of $V$ and $W$ over $X$. It is denoted by $V \otimes W$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item By the definition of a holomorphic vector bundle (of rank $r$ over $X$), $g$ is a family indexed by $I \times I$ such that, for all $j,k \in I$, the component $g_{jk} := g_{(j,k)}$ of $g$ is a holomorphic map from $U_{jk} := U_j \cap U_k$ (given the complex manifold structure of $X$) to $G := \GL(r,\C)$. Let $j,k,l \in I$ be arbitrary. Then for all $x \in U_{jk}$, all $y \in U_{kl}$, all $z \in U_{jl}$, and all $p \in \C^r$ we have
+\begin{align*}
+\phi_j \circ \phi_k^{-1}(x,p) &= (x,g_{jk}(x)p), \\
+\phi_k \circ \phi_l^{-1}(y,p) &= (y,g_{kl}(y)p), \\
+\phi_j \circ \phi_l^{-1}(z,p) &= (z,g_{jl}(z)p).
+\end{align*}
+Thus for all $x \in U_{jkl} := U_j \cap U_k \cap U_l$ and all $p \in \C^r$ we have
+\begin{align*}
+(x,g_{jl}(x)p) &= \phi_j \circ \phi_l^{-1}(x,p) \\
+&= \phi_j \circ \phi_k^{-1}\paren*{\phi_k \circ \phi_l^{-1}(x,p)} \\
+&= \phi_j \circ \phi_k^{-1}(x,g_{kl}(x)p) \\
+&= \paren*{x,g_{jk}(x)(g_{kl}(x)p)},
+\end{align*}
+whence
+\[
+g_{jl}(x)p = g_{jk}(x)(g_{kl}(x)p) = (g_{jk}(x)g_{kl}(x))p.
+\]
+As $p \in \C^r$ was arbitrary, we conclude that for all $x \in U_{jkl}$,
+\[
+g_{jl}(x) = g_{jk}(x) \cdot g_{kl}(x),
+\]
+where the dot signifies the multiplication of complex $r \times r$ matrices, which is the multiplication in the complex Lie group $G$, Q.E.D.
+
+\item Let $j,k \in I$ be arbitrary. Then $g_{kj}$ is a holomorphic map from $U_{kj} = U_{jk}$ to $G = \GL(r,\C)$. Since taking the transpose defines a holomorphic map from $\C^{r\times r}$ to $\C^{r \times r}$,\footnote{Why?} and since the transpose of an invertible matrix is again invertible, we deduce that $g'_{jk} = g_{kj}^\top$ is a holomorphic map from $U_{jk}$ to $G$.
+Employing \cref{it:1-cocycles-a}, for all $j,k,l \in I$ and all $x \in U_{jkl} = U_{lkj}$, we obtain that
+\[
+g'_{jl}(x) = g_{lj}(x)^\top = (g_{lk}(x)g_{kj}(x))^\top = g_{kj}(x)^\top g_{lk}(x)^\top = g'_{jk}(x)g'_{kl}(x),
+\]
+which proves that $g'$ is a holomorphic $1$-cocycle of $U$ on $X$ with values in $G$.
+
+For an explicit description of $V'$ we need to determine the following objects:
+\begin{solenum}
+\item A complex manifold $P$, which is the \hl{total space} of $V'$,
+\item a holomorphic map $\pi \colon P \to X$, which is the \hl{bundle projection},
+\item an indexed \hl{open cover} of $X$,
+\item a family $\phi$ of \hl{local trivializations}, and
+\item a family of \hl{transition functions}.
+\end{solenum}
+
+To construct $P$, consider $\tilde P := \bigcup_{i \in I} \set i \times (U_i \times \C^r)$, which is a (artificial) \emph{disjoint union} of the family of sets $(U_i \times \C^r)_{i \in I}$.\footnote{Observe that $U_i \times \C^r$ and $U_j \times \C^r$ for $i,j \in I$, $i \ne j$, are a priori not disjoint.} Assume that $n \in \N$ is such that $X$ is an $n$-dimensional complex manifold. Then, for all $i \in I$, the set $U_i$ receives the structure of an $n$-dimensional complex manifold from $X$, so that $U_i \times \C^r$ becomes an $(n+r)$-dimensional complex manifold. Using the bijection $\set i \times (U_i \times \C^r) \to U_i \times \C^r$ given by the second projection, $\set i \times (U_i \times \C^r)$ receives the structure of an $(n+r)$-dimensional complex manifold. Therefore the disjoint union $\tilde P$ receives the structure of an $(n+r)$-dimensional complex manifold.\footnote{Observe that $\tilde P$, as a topological space, might not have a countable basis, for the index set $I$ might be uncountable \ldots Thus strictly speaking, $\tilde P$ might not be a complex manifold in our sense (see last semester's definition). Nevertheless, $\tilde P$ is a Hausdorff space on which we have constructed an $(n+r)$-dimensional complex atlas, whence an $(n+r)$-dimensional complex structure.} Define a binary relation $R$ on $\tilde P$ by means of
+\[
+(i,x,p) \sim_R (j,y,q) :\iff x=y \land p = g'_{ij}(y)q.
+\]
+Since $g'$ is a $1$-cocycle of $U$, one proves that $R$ is an equivalence relation on $\tilde P$.\footnote{I omit the details.} We define $P$ as the quotient of $\tilde P$ by $R$. This quotient is first of all defined as a topological space. By last semester's \hl{general quotient theorem}, however, there exists a unique $(n+r)$-dimensional complex structure on $P = \tilde P/R$ such that the quotient map (“canonical projection”) $\alpha \colon \tilde P \to P$ is a local biholomorphism. It is important to note that $P = \tilde P/R$ is Hausdorff to begin with. Then you note that for all $i \in I$, the canonical map $\alpha_i$ from $U_i \times \C^r$ to $P$ is a homeomorphism onto its image $V_i$, which is an open subset of $P$. Thirdly, using that the components of $g'$ are holomorphic, you establish that for all $i,j \in I$, the map
+\[
+\alpha_i^{-1} \circ \rest{\alpha_j}{U_{ij} \times \C^r} \colon U_{ij} \times \C^r \to U_{ij} \times \C^r
+\]
+is a biholomorphism.\footnote{This assertion, as well as the assertions made in the two sentences preceding, stand here without proof, although not being entirely trivial.} An explicit $(n+r)$-dimensional complex atlas on $P$ is obtained considering all compositions $\phi \circ \alpha_i^{-1}$, where $i \in I$ and $\phi$ is an $(n+r)$-dimensional complex chart on $U_i \times \C^r$.\footnote{Observe that the topological space $P = \tilde P/R$ possesses a countable basis, even though $\tilde P$ might not. Can you think of a proof?}
+
+The definition of $\pi$ is rather easy. You define $\tilde\pi \colon \tilde P \to X$ by means of $\tilde\pi(i,x,p) = x$. Then $\tilde\pi$ is evidently a holomorphic map (being a projection) and we have $\tilde\pi(i,x,p) = \tilde\pi(j,y,q)$ whenever $(i,x,p) \sim_R (j,y,q)$. Therefore, by the universal property of the complex quotient, the unique map $\pi \colon P \to X$ satisfying $\pi \circ \alpha = \tilde\pi$ is holomorphic. In fact, this $\pi$ is holomorphic given that $\alpha$ is a local biholomorphism.
+
+The open cover of $V'$ is simply $U = (U_i)_{i \in I}$. The local trivializations $\phi = (\phi_i)_{i \in I}$ are given by $\phi_i = \alpha_i^{-1}$. Note that $V_i = \alpha_i(U_i \times \C^r) = \pi^{-1}(U_i)$ and $\pi \circ \alpha_i = \pr1$, whence $\pi = \pr1 \circ \phi_i$, for all $i \in I$. Finally, the family of transition functions of $V'$ is simply $g'$. Observe that
+\[
+\phi_i \circ \phi_j^{-1}(y,q) = (y,g'_{ij}(y)q)
+\]
+for all $i,j \in I$, all $y \in U_{ij}$, and all $q \in \C^r$ is immediate from the above definitions.
+
+\item Let $W$, $h$, and $t$ be as in the formulation of the exercise. Let $j,k \in I$. Then $h_{jk}$ is a holomorphic map from $U_{jk}$ to $\GL(1,\C)$. In particular, for all $x \in U_{jk}$, we see that $h_{jk}(x)$ is a $1\times1$ matrix whose single entry is a nonzero complex number (i.e., an element of $\C^*$). Therefore, for all $x \in U_{jk}$, the product $t_{jk}(x) = g_{jk}(x) \otimes h_{jk}(x)$ is an invertible complex $r\times r$ matrix, given that $g_{jk}(x)$ is. Since the product of holomorphic functions is holomorphic, we see that $t_{jk}$ is a holomorphic map from $U_{jk}$ to $G = \GL(r,\C)$.
+Employing \cref{it:1-cocycles-a}, we obtain that for all $j,k,l \in I$ and all $x \in U_{jkl}$,
+\begin{align*}
+t_{jl}(x) &= g_{jl}(x) \otimes h_{jl}(x) \\
+&= (g_{jk}(x)g_{kl}(x)) \otimes (h_{jk}(x)h_{kl}(x)) \\
+&= (g_{jk}(x) \otimes h_{jk}(x))(g_{kl}(x) \otimes h_{kl}(x)) = t_{jk}(x) t_{kl}(x).
+\end{align*}
+Thus $t$ is a holomorphic $1$-cocycle of $U$ on $X$ with values in $G$, which was to be demonstrated.
+\end{solenum}
+\end{solution}
+
+\begin{question}[name=Exercise*, subtitle=The holomorphic frame bundle, print]
+\label{qu:frame bundle}
+Let $X$ be a complex manifold and $V$ a holomorphic vector bundle of rank $r \in \N$ over $X$. Let $(F_x)_{x \in X}$ be the family such that $F_x$ is the set of all ordered bases of the complex vector space $V_x$, for all $x \in X$. Moreover, let $Q$ be the (disjoint) union of the $F_x$'s and let $\Pi \colon Q \to X$ be the unique map sending the elements of $F_x$ to $x$, for all $x \in X$.\footnote{Note that the $F_x$'s are indeed pairwise disjoint. Why?}
+
+Explain how to make the data of $Q$ and $\Pi$ into a holomorphic fiber bundle over $X$ with structure group $G := \GL(r,\C)$ (seen as a complex Lie group) and typical fiber $F := \GL(r,\C)$ (seen as a complex manifold). What additional data is required exactly? How does $G$ act on $F$? Give all relevant proofs.
+\end{question}
+
+\begin{solution}[print]
+In order to make $Q$ and $\Pi$ into a holomorphic fiber bundle over $X$ with structure group $G$ and typical fiber $F$, we need the following additional data:
+\begin{solenum}[label=\arabic*.]
+\item a topology $T$ on $Q$ as well as a $k$-dimensional complex structure on the topological space $(Q,T)$, for some $k \in \N$, so that $Q$ becomes a ($k$-dimensional) complex manifold,
+\item an indexed open cover $U$ of $X$,
+\item a family of local trivializations $\Phi$, and
+\item a family of transition functions $g$.
+\end{solenum}
+The given data must satisfy certain axioms.
+Moreover, an effective analytic action of $G$ on $F$ must be prescribed. Otherwise the whole concept would not make any sense.
+
+Since $V$ is a holomorphic vector bundle of rank $r$ over $X$, it comes with an indexed open cover $U = (U_i)_{i \in I}$, a family of local trivializations $\phi = (\phi_i)_{i \in I}$, and a family of transition functions $g = (g_{ij})_{(i,j) \in I\times I}$. We take $U$ and $g$ as the open cover of our new fiber bundle and the family of transition functions of our new fiber bundle, respectively. Note that this makes sense since $V$ and our new bundle have the same structure group---namely, $G = \GL(r,\C)$. Let $i \in I$ be arbitrary now. Then $\Pi^{-1}(U_i) = \bigcup_{x \in U_i} F_x$.
+\end{solution}
+
+\begin{question}[subtitle=Explicit calculations with vector bundles on $\P^2$]
+\label{qu:explicit calculations}
+Let $\mathcal A = ((U_i,\phi_i))_{i \in I}$ be the standard $2$-dimensional complex atlas of the complex projective plane $\P^2$. In particular, $I = \set{0,1,2}$.
+\begin{enumerate}
+\item \label{it:explicit calculations-a} Compute, for $i,j \in I$, $i<j$, an explicit formula for the transition function $g_{ij}$ of the tangent bundle $\TB{\P^2}$ of $\P^2$, where $\TB{\P^2}$ is defined with respect to the atlas $\mathcal A$.
+\item \label{it:explicit calculations-b} Compute, for $i,j \in I$, $i<j$, an explicit formula for the transition function $h'_{ij}$ of the dual bundle $\KB{\P^2}'$ of the canonical bundle of $\P^2$, where $\KB{\P^2}$ is defined with respect to the atlas $\mathcal A$.
+\item As an application of \cref{it:explicit calculations-b}, show that there is a holomorphic line bundle $L$ on $\P^2$ whose third tensor power is isomorphic (“equivalent” in the sense of fiber bundles) to $\KB{\P^2}'$ (i.e., $L^3 \cong \KB{\P^2}'$).
+\item Let $Y$ be the image of $\hat Y = \set{z = (z_0,z_1,z_2) \in \C^3 \setminus \set0 \mid z_2=0}$ under the canonical projection $\C^3 \setminus \set0 \to \P^2$. Prove that $Y$ is a submanifold of $\P^2$ and compute explicit formulas for the transition functions of the normal bundle $\NB Y{\P^2}$ of $Y$ in $\P^2$ using an appropriate open cover of $Y$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+\begin{solenum}
+\item By the \hl{definition of the tangent bundle} we have
+\[
+g_{ij}(a) = \Jac{\phi_i \circ \phi_j^{-1}}{\phi_j(a)}
+\]
+for all $i,j \in I$ and all $a \in U_{ij} := U_i \cap U_j$. We calculate the Jacobian on the right-hand side step by step for $i=0$ and $j=1$. Recall that, by definition,
+\[
+U_0 = \set{(x_0:x_1:x_2) \mid x = (x_0,x_1,x_2) \in \hat U_0},
+\]
+where
+\[
+\hat U_0 := \set{z = (z_0,z_1,z_2) \in \C^3 \mid z_0 \ne 0}.
+\]
+Moreover, $\phi_0(x_0:x_1:x_2) = \frac1{x_0}(x_1,x_2)$ for all $x \in \hat U_0$ and $\phi_1^{-1}(y) = (y_1:1:y_2)$ for all $y = (y_1,y_2) \in \C^2$. Therefore,
+\[
+\phi_0 \circ \phi_1^{-1}(y) = \phi_0(y_1:1:y_2) = \frac1{y_1}(1,y_2)
+\]
+for all $y \in \C^2$ with $y_1 \ne 0$. Differentiating, we obtain
+\[
+\Jac{\phi_0 \circ \phi_1^{-1}}y = \frac1{y_1}\begin{pmatrix}-\frac1{y_1} & 0 \\ -\frac{y_2}{y_1} & 1\end{pmatrix}
+\]
+for all $y \in \C^2$ with $y_1 \ne 0$, whence
+\[
+\Jac{\phi_0 \circ \phi_1^{-1}}{\phi_1(x_0:x_1:x_2)} = \Jac{\phi_0 \circ \phi_1^{-1}}{\frac{x_0}{x_1},\frac{x_2}{x_1}} = \frac{x_1}{x_0} \begin{pmatrix}-\frac{x_1}{x_0} & 0 \\ -\frac{x_2}{x_0} & 1\end{pmatrix}
+\]
+for all $x \in \C^3$ with $x_0 \ne 0$ and $x_1 \ne 0$ (i.e., for all $x \in \hat U_0 \cap \hat U_1$). This is the desired formula for $g_{01}$. Similar calculations yield
+\begin{align*}
+g_{02}(x_0:x_1:x_2) &= \frac{x_2}{x_0} \begin{pmatrix}-\frac{x_1}{x_0} & 1 \\ -\frac{x_2}{x_0} & 0\end{pmatrix} \intertext{and}
+g_{12}(x_0:x_1:x_2) &= \frac{x_2}{x_1} \begin{pmatrix}1 & -\frac{x_0}{x_1} \\ 0 & -\frac{x_2}{x_1}\end{pmatrix}
+\end{align*}
+for all $x \in \hat U_0 \cap \hat U_2$ and all $x \in \hat U_1 \cap \hat U_2$, respectively.
+
+\item Let $h$ be the family of transition functions of the \hl{canonical bundle} of $\P^2$ defined with respect to the atlas $\mathcal A$. Then, by definition, for all $i,j \in I$ and all $a \in U_{ij}$, we have
+\[
+h_{ij}(a) = \det \Jac{\phi_i \circ \phi_j^{-1}}{\phi_j(a)}^{-1},
+\]
+where we may either first invert the complex $2\times2$ matrix and then take the determinant or first take the determinant and then pass to the multiplicative inverse of the resulting complex number---we opt for the latter. By the \hl{definition of the dual bundle} (see \cref{qu:1-cocycles}, \cref{it:1-cocycles-b}) we obtain
+\[
+h'_{ij}(a) = h_{ji}(a)^\top = (h_{ij}(a)^{-1})^\top = \det \Jac{\phi_i \circ \phi_j^{-1}}{\phi_j(a)}.
+\]
+Note that $h_{ji}(a) = h_{ij}(a)^{-1}$ is a consequence of the \hl{cocycle relations} \cref{eq:1-cocycles} for $h$. Moreover, note that transposing a $1\times1$ matrix does not change anything. Therefore, the results of \cref{it:explicit calculations-a} imply
+\[
+h'_{01}(x_0:x_1:x_2) = \paren*{\frac{x_1}{x_0}}^2\paren*{-\frac{x_1}{x_0}\cdot 1 - 0} = -\paren*{\frac{x_1}{x_0}}^3
+\]
+for all $x \in \hat U_0 \cap \hat U_1$. Similarly,
+\[
+h'_{02}(x_0:x_1:x_2) = \paren*{\frac{x_2}{x_0}}^3 \quad \text{and} \quad h'_{12}(x_0:x_1:x_2) = -\paren*{\frac{x_2}{x_1}}^3
+\]
+for all $x \in \hat U_0 \cap \hat U_2$ and all $x \in \hat U_1 \cap \hat U_2$, respectively.
+
+\item Evidently there exists an $I \times I$ indexed family $l$ such that, for all $i,j \in I$, the component $l_{ij} = l_{(i,j)}$ of $l$ is the unique function on $U_{ij}$ given by
+\begin{equation}
+\label{eq:explicit calculations-1}
+l_{ij}(a) = \frac{x_j}{x_i},
+\end{equation}
+where $x = (x_0,x_1,x_2) \in \C^3$ represents $a$. Since, for all $i,j,k \in I$, the map $l_{ij} \colon U_{ij} \to \C^*$ is holomorphic and
+\[
+l_{ij}(a)l_{jk}(a) = l_{ik}(a)
+\]
+holds for all $a \in U_{ijk}$, we see that $l$ is a holomorphic $1$-cocycle of $U = (U_i)_{i \in I}$ on $\P^2$ with values in the complex Lie group $\C^*$ (see \cref{qu:1-cocycles}). In other words, as explained in the lecture, $l$ is the system of transition functions of a holomorphic line bundle $L$ over $X$. By definition, the third \hl{tensor power} $L^3$ of $L$ over $X$ is a holomorphic line bundle over $X$ whose system of transition functions $l^3 = (l^3_{ij})_{(i,j) \in I\times I}$ is given by $l^3_{ij}(a) = l_{ij}(a)^3$ for all $i,j \in I$ and all $a \in U_{ij}$. I contend that the system $l^3$ is \hl{analytically equivalent} (“cohomologous”) to the system of transition functions $h'$ of $\KB{\P^2}'$. In fact, defining $f_i \colon U_i \to \C^*$ by $f_i(a) = (-1)^i$ for all $i \in I$ and all $a \in U_i$, we obtain a tuple $(f_0,f_1,f_2)$ of holomorphic maps such that
+\[
+f_i(a)l^3_{ij}(a) = (-1)^i\paren*{\frac{x_j}{x_i}}^3 = (-1)^{i-j}\paren*{\frac{x_j}{x_i}}^3(-1)^j = h'_{ij}(a)f_j(a)
+\]
+holds for all $i,j \in I$, all $a \in U_{ij}$, and all representatives $x$ of $a$ (in virtue of the cocycle relations $h'_{ji} = (h'_{ij})^{-1}$ and $h'_{ii} = 1$ it suffices to check this for $i<j$). Therefore, the systems $l^3$ and $h'$ are analytically equivalent. According to the lecture, the associated holomorphic fiber bundles (vector bundles) $L^3$ and $\KB{\P^2}'$ are equivalent (isomorphic), Q.E.D.
+
+\begin{remark}
+\label{re:explicit calculations}
+Changing \cref{eq:explicit calculations-1} to read
+\[
+l_{ij}(a) = (-1)^{i-j}\frac{x_j}{x_i},
+\]
+you obtain not only that $l^3$ and $h'$ are cohomologous, but that $l^3 = h'$. Mind that the new $l$ is still a $1$-cocycle in the sense of \cref{qu:1-cocycles}. In consequence, $L^3$ and $\KB{\P^2}'$ are not only isomorphic, but they are actually equal (given that both bundles are constructed out of their respective systems of transition functions).
+\end{remark}
+
+\begin{remark}
+Executing the above calculations for an arbitrary number of variables $x_0,\dots,x_n$ in place of $x_0,x_1,x_2$, you can prove that $L^{n+1} \cong \KB{\P^n}'$ for all $n \in \N$, where the definition of $L$ via \cref{eq:explicit calculations-1} remains exactly the same.
+\end{remark}
+
+\item Clearly $Y$ is a $1$-(co)dimensional submanifold of $\P^2$ by last semester's theory ($\hat Y$ is defined by the homogeneous polynomial function $F \colon \C^3 \to \C$, $F(z) = z_2$, which has Jacobian rank $1$ at all points of $\C^3$). The \hl{normal bundle} of $Y$ in $\P^2$ is defined as the \hl{quotient bundle} $\iota^*(\TB{\P^2})/\TB Y$ over $Y$, where $\iota \colon Y \to \P^2$ denotes the inclusion map and $\TB Y$ is interpreted as the image of $\TB Y$ in $\iota^*(\TB{\P^2})$ under the tangent map. The underlying open cover of the \hl{pullback} (or “lifted bundle”) $\iota^*(\TB{\P^2})$ is, by definition, the family $V = (V_i)_{i \in I}$ with $V_i = \iota^{-1}(U_i)$ for all $i \in I$. Note that $V_2 = \iota^{-1}(U_2) = Y \cap U_2 = \emptyset$ so that we can restrict the family $V$ to $\set{0,1}$ and obtain an equivalent bundle. The family of transition functions of $\iota^*(\TB{\P^2})$ is $(g_{ij} \circ \iota)_{(i,j) \in I \times I}$.  In particular, by \cref{it:explicit calculations-a},
+\begin{equation}
+\label{eq:explicit calculations-2}
+g_{01} \circ \iota(a) = \frac{x_1}{x_0} \begin{pmatrix}-\frac{x_1}{x_0} & 0 \\ 0 & 1\end{pmatrix} = \begin{pmatrix}-\paren{\frac{x_1}{x_0}}^2 & 0 \\ 0 & \frac{x_1}{x_0}\end{pmatrix}
+\end{equation}
+for all $a \in V_{01} = Y \cap U_{01}$ and all representatives $(x_0,x_1,0)$ of $a$.
+
+For $i \in \set{0,1}$ we see that
+\[
+Y \cap U_i = \phi_i^{-1}(\set{y = (y_1,y_2) \in \C^2 \mid y_2 = 0}).
+\]
+Thus according to the lecture, we have
+\[
+\rest{\TB Y}{V_i} = \Phi_i^{-1}(V_i \times \set{c = (c_1,c_2) \in \C^2 \mid c_2 = 0})
+\]
+for $i \in \set{0,1}$, where $\Phi_i \colon \rest{\iota^*(\TB{\P^2})}{V_i} \to V_i \times \C^2$ is the $i$-component of the family of local trivializations of the vector bundle $\iota^*(\TB{\P^2})$. Recall that the notation $\rest WA$ for a vector bundle (or fiber bundle) signifies $\pi^{-1}(A)$, where $\pi$ is the bundle projection of $W$. As a result, we can take $(V_i)_{i \in \set{0,1}}$ as an open cover of $Y$ to define the holomorphic vector bundle structure on both $\TB Y$ (as a subbundle of $\iota^*(\TB{\P^2})$) and $\NB Y{\P^2} = \iota^*(\TB{\P^2})/\TB Y$. As can be read of \cref{eq:explicit calculations-2}, the corresponding $(0,1)$-transition functions are given by
+\[
+a \mapsto -\paren*{\frac{x_1}{x_0}}^2 \quad \text{and} \quad a \mapsto \frac{x_1}{x_0},
+\]
+respectively, where $a \in V_{01}$ and $(x_0,x_1,0)$ represents the point $a$. The $(1,0)$-transition function of $\NB Y{\P^2}$ is given by $a \mapsto \paren{\frac{x_1}{x_0}}^{-1} = \frac{x_0}{x_1}$ due to the cocycle relation \cref{eq:1-cocycles}. For the same reason the remaining transition functions $(0,0)$ and $(1,1)$ are trivial---that is, they are constant maps with value $1 \in \C^*$ (this being the unit of the complex Lie group $\C^*$).
+\end{solenum}
+\end{solution}
+
+\begin{question}[subtitle=The kernel and the image of a vector bundle homomorphism]
+\label{qu:kernel bundle}
+Let $X$ be a nonempty complex manifold, $V$ and $W$ holomorphic vector bundles of ranks $r$ and $s$ over $X$ respectively, $\eta \colon V \to W$ a vector bundle homomorphism over $X$, and $m \in \N_0$ such that, for all $x \in X$, the rank of the linear map $\eta_x \colon V_x \to W_x$ is equal to $m$. Show:
+\begin{enumerate}
+\item The set $\ker\eta := \bigcup_{x \in X} \ker\eta_x$ is a subbundle of rank $(r-m)$ of $V$ over $X$.
+\item The set $\im\eta := \bigcup_{x \in X} \im\eta_x$ is a subbundle of rank $m$ of $W$ over $X$.
+\end{enumerate}
+\end{question}
+
+\begin{solution}%[print]
+It is clear that $\ker\eta$ and $\im\eta$ are subsets of the total spaces of $V$ and $W$, respectively. So to prove that $\ker\eta$ and $\im\eta$ are \hl{subbundles} of ranks $(r-m)$ and $m$ of $V$ and $W$ over $X$, respectively, we need to prove the existence of an $(r-m)$-dimensional linear subspace $E \subset \C^r$ and an $m$-dimensional linear subspace $F \subset \C^s$ such that, for all $x \in X$, there exists an open neighborhood $U$ of $x$ in $X$ together with trivializations $\Phi$ and $\Psi$ of $V$ and $W$ over $U$, respectively, such that
+\begin{align*}
+\Phi^{-1}(U \times E) &= \rest{\ker\eta}U := (\ker\eta) \cap \pi_V^{-1}(U) = \bigcup_{x \in U} \ker\eta_x \intertext{and}
+\Psi^{-1}(U \times F) &= \rest{\im\eta}U := (\im\eta) \cap \pi_W^{-1}(U) = \bigcup_{x \in U} \im\eta_x .
+\end{align*}
+Here, $\pi_V$ and $\pi_W$ denote the bundle projections of $V$ and $W$, respectively.
+We define
+\begin{align*}
+E &:= \set{z \in \C^r \mid \forall \nu \in \set{r-m+1,\dots,r} \; z_\nu=0}, \\
+F &:= \set{z \in \C^s \mid \forall \nu \in \set{1,\dots,s-m} \; z_\nu = 0} .
+\end{align*}
+Note that $m \le r$ and $m \le s$, for the manifold $X$ is nonempty (if $X$ were empty, then $m$ could in fact be arbitrary and still satisfy the assumptions of the exercise). Thus $E$ and $F$ are an $(r-m)$ and an $m$-dimensional linear subspace of $\C^r$ and $\C^s$, respectively.
+
+Let $x \in X$ be arbitrary now. By the definition of holomorphic vector bundles, there exist open neighborhood $S$ and $T$ of $x$ in $X$ as well as local trivializations (“vector bundle charts”) $\Phi \colon \pi_V^{-1}(S) \to S \times \C^r$ and $\Psi \colon \pi_W^{-1}(T) \to T \times \C^s$ of $V$ and $W$ over $S$ and $T$, respectively. Since $\eta$ is a vector bundle homomorphism between $V$ and $W$ over $X$, there exists a holomorphic map $A \colon S \cap T \to \C^{s\times r}$ such that
+\[
+\Psi \circ \eta \circ \Phi^{-1}(y,p) = (y,A(y)p)
+\]
+holds for all $y \in S \cap T$ and all $p \in \C^r$. Since the rank of the linear map $\eta_y \colon V_y \to W_y$ is equal to $m$, we deduce that the rank of the $s\times r$ matrix $A(y)$ is equal to $m$, for all $y \in U$. In particular, $A(x)$ is of rank $m$. Hence there exist $r\times r$ and $s\times s$ permutation matrices $P$ and $Q$, respectively, such that the product $QA(x)P$ has block matrix form
+\[
+QA(x)P = \begin{pmatrix}B_{11} & B_{12} \\ B_{21} & B_{22}\end{pmatrix}
+\]
+with $B_{22}$ being invertible of size $m \times m$.\footnote{Why is that?} The map $B \colon S \cap T \to \C^{s\times r}$ given by $B(y) = QA(y)P$ being continuous, there exists an open neighborhood $U$ of $x$ in $S \cap T$ such that $B(y)_{22} \in \GL(m,\C)$ for all $y \in U$.
+
+\begin{solenum}
+\item We define a map $C \colon U \to \C^{r\times r}$ by
+\[
+C(y) = \begin{pmatrix}I_{r-m} & 0 \\ -(B(y)_{22})^{-1}B(y)_{21} & I_m\end{pmatrix}.
+\]
+\begin{claim}
+\label{cl:kernel bundle-1}
+Let $y \in U$. Then the kernel of the matrix $A(y)PC(y)$ is $E$.
+\end{claim}
+
+\begin{proof}
+We write $A$, $B$, and $C$ for $A(y)$, $B(y)$, and $C(y)$, respectively, and calculate in block form
+\[
+QAPC = BC = \begin{pmatrix}B_{11} & B_{12} \\ B_{21} & B_{22}\end{pmatrix} \begin{pmatrix}I_{r-m} & 0 \\ -B_{22}^{-1}B_{21} & I_m\end{pmatrix}
+= \begin{pmatrix}B_{11} - B_{12}B_{22}^{-1}B_{21} & B_{12} \\ 0 & B_{22}\end{pmatrix}.
+\]
+Since $A$ has rank $m$, the product $QAPC$ must have rank $\le m$ ($=m$ in fact, noting that $Q$, $P$, and $C$ are invertible). Therefore, $B_{11} - B_{12}B_{22}^{-1}B_{21} = 0$ in $\C^{(s-m) \times (r-m)}$; otherwise we would have at least $m+1$ linearly independent rows in $QAPC$. As a consequence, the kernel of $QAPC$ is precisely $E$. Given that $Q$ is invertible (being a permutation matrix), the kernel of $QAPC$ agrees with the kernel of $APC$.
+\end{proof}
+
+Define a map
+\[
+\Gamma \colon U \times \C^r \to U \times \C^r \quad \text{by} \quad \Gamma(y,p') = (y,PC(y)p') .
+\]
+Then $\Gamma$ is holomorphic, for $B \colon S \cap T \to \C^{s\times r}$ is holomorphic, whence $C \colon U \to \C^{r\times r}$ is holomorphic. Here we employ the fact that the map taking a matrix to its inverse is a holomorphic self-map of $\GL(m,\C)$. For the same reason, the inverse map $\Gamma^{-1} \colon U \times \C^r \to U \times \C^r$ of $\Gamma$, which is given by $\Gamma^{-1}(y,p) = (y,C(y)^{-1}P^{-1}p)$, is holomorphic. Thus since $\Gamma$ and $\Gamma^{-1}$ are linear on the fibers of the first projection $U \times \C^r \to U$, they both are vector bundle isomorphisms over $U$, whence the composition
+\[
+\Phi' := \Gamma^{-1} \circ \rest\Phi{\pi_V^{-1}(U)} \colon \pi_V^{-1}(U) \to U \times \C^r
+\]
+is a vector bundle chart for $V$ over $U$. Moreover, we have
+\[
+\Psi \circ \eta \circ \Phi'^{-1}(y,p') = \Psi \circ \eta \circ \Phi^{-1} \circ \Gamma(y,p') = (y,A(y)PC(y)p')
+\]
+for all $y \in U$ and all $p' \in \C^r$. In virtue of \cref{cl:kernel bundle-1} we deduce
+\[
+\Phi'^{-1}(U \times E) = \bigcup_{y \in U} \ker \eta_y
+\]
+employing the fact that, for all $y \in U$, the map $\Psi$ restricts to an isomorphism (monomorphism suffices here) of vector spaces $W_y \to \set y \times \C^s$, Q.E.D.
+
+\item We define a map $D \colon U \to \C^{s\times s}$ by
+\[
+D(y) = \begin{pmatrix}I_{s-m} & B(y)_{12} \\ 0 & B(y)_{22}\end{pmatrix} .
+\]
+Then $D$ is a holomorphic map with values in $\GL(s,\C)$. We further define $\Delta \colon U \times \C^s \to U \times \C^s$ by $\Delta(y,q') = (y,Q^{-1}D(y)q')$. Then $\Delta$ is a vector bundle isomorphism over $U$ with inverse map $\Delta^{-1}$ given by $\Delta^{-1}(y,q) = (y,D(y)^{-1}Qq)$. In consequence, the composition
+\[
+\Psi' := \Delta^{-1} \circ \rest\Psi{\pi_W^{-1}(U)} \colon \pi_W^{-1}(U) \to U \times \C^s
+\]
+is a vector bundle chart for $W$ over $U$. We have
+\[
+\Psi' \circ \eta \circ \Phi^{-1}(y,p) = (y,D(y)^{-1}QA(y)p)
+\]
+for all $y \in U$ and $p \in \C^r$.
+
+\begin{claim}
+\label{cl:kernel bundle-2}
+Let $y \in U$. Then the image\footnote{This is better called “column space”.} of the matrix $D(y)^{-1}QA(y)$ is $F$.
+\end{claim}
+
+\begin{proof}
+Write $A$, $B$, $D$ for $A(y)$, $B(y)$, $D(y)$, respectively. Then, because $P$ is invertible, the image of $D^{-1}QA$ equals the image of $D^{-1}QAP = D^{-1}B$. Since the last $m$ columns of $B$ are linearly independent and $B$ cannot have rank larger than $m$, the image of $B$ is the span of its last $m$ columns. By definition, $D$ maps the linear subspace $F \subset \C^s$ isomorphically onto the span of the last $m$ columns of $B$. Therefore $D^{-1}$ maps the span of the last $m$ columns of $B$ isomorphically onto $F$.
+\end{proof}
+
+Recalling that, for all $y \in U$, the restriction of $\Phi$ yields an isomorphism of vector spaces $V_y \to \set y \times \C^r$ (the surjectivity is what counts here), \cref{cl:kernel bundle-2} implies
+\[
+\Psi'^{-1}(U \times F) = \bigcup_{y\in U} \im\eta_y ,
+\]
+which was to be demonstrated.
+\end{solenum}
+\end{solution}
+\end{document}
